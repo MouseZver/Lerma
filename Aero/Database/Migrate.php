@@ -125,11 +125,9 @@ class Migrate
 	*/
 	protected function multiExecute( array $executes )
 	{
-		
 		foreach ( $executes AS $execute )
 		{
 			self::$instance -> driver -> execute( $execute );
 		}
-		commit();
 	}
 }
