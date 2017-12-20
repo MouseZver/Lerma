@@ -11,6 +11,8 @@ class Migrate
 	private static $instance;
 	protected $migrate;
 	protected $driver;
+	protected $matches = [];
+	protected $pattern = '/(\?|:[a-z]{1,})/';
 	
 	/*
 		- Выбор и загрузка драйвера для работы с базой данных
@@ -28,6 +30,11 @@ class Migrate
 		
 		$this -> driver = require $driverPath;
 		
+		if ( !is_a ( $this -> driver, Aero\Interfaces\Lerma\IDrivers::class ) )
+		{
+			throw new Exception( 'Загруженный драйвер не соответсвует требованиям интерфейсу IDrivers' );
+		}
+		
 		return $this;
 	}
 	
@@ -41,6 +48,11 @@ class Migrate
 			self::$instance = ( new static ) -> IDrivers( Aero\Configures\Lerma::class );
 		}
 		
+		if ( !empty ( self::$instance -> matches ) )
+		{
+			self::$instance -> matches = [];
+		}
+		
 		return self::$instance;
 	}
 	
@@ -49,7 +61,7 @@ class Migrate
 	*/
 	protected static function query( $sql )
 	{
-		return ( $static = self::instance() ) -> driver -> query( is_array ( $sql ) ? sprintf ( ...$sql ) : $sql );
+		return self::instance() -> driver -> query( is_array ( $sql ) ? sprintf ( ...$sql ) : $sql );
 	}
 	
 	/*
@@ -62,49 +74,101 @@ class Migrate
 			throw new Exception( 'Значения для подготовления пусты' );
 		}
 		
-		( $static = self::instance() ) -> driver -> prepare( is_array ( $sql ) ? sprintf ( ...$sql ) : $sql );
+		self::instance() -> driver -> prepare( self::$instance -> replaceHolders( $sql ) );
 		
-		if ( $static -> isMulti( $execute ) )
+		if ( self::$instance -> isMulti( $execute ) )
 		{
 			try
 			{
-				$static -> driver -> begin_transaction();
+				self::$instance -> driver -> begin_transaction();
 				
-				$static -> multiExecute( $execute );
+				self::$instance -> multiExecute( $execute );
 				
-				$static -> driver -> commit();
+				self::$instance -> driver -> commit();
 			}
-			catch ( Throwable $Throwable )
+			catch ( Throwable $t )
 			{
-				$static -> driver -> rollback();
+				self::$instance -> driver -> rollback();
 				
-				exit ( $Throwable -> getMessage() );
+				exit ( /*$t -> getMessage()*/ $t -> getTraceAsString() );
 			}
 		}
 		else
 		{
-			$static -> driver -> execute( $execute );
+			self::$instance -> execute( $execute );
 		}
 		
-		return $static -> driver;
+		return self::$instance -> driver;
+	}
+	
+	
+	protected function execute( array $execute )
+	{
+		self::$instance -> driver -> execute( !empty ( $this -> matches ) ? self::$instance -> executeHolders( $execute ) : $execute );
+	}
+	
+	
+	protected function replaceHolders( $sql ): string
+	{
+		$sql = ( is_array ( $sql ) ? sprintf ( ...$sql ) : $sql );
+		
+		if ( strpos ( $sql, ':' ) !== false )
+		{
+			preg_match_all ( $this -> pattern, $sql, $matches );
+			
+			$this -> matches = $matches[1];
+			
+			$sql = strtr ( $sql, array_fill_keys ( $this -> matches, '?' ) );
+		}
+		
+		return $sql;
+	}
+	
+	
+	protected function executeHolders( array $execute ): array
+	{
+		$new = [];
+		
+		foreach ( $this -> matches as $plaseholder )
+		{
+			if ( $plaseholder === '?' )
+			{
+				$new[] = array_shift ( $execute );
+			}
+			else
+			{
+				if ( isset ( $new[$plaseholder] ) )
+				{
+					$new[] = $new[$plaseholder];
+				}
+				else
+				{			
+					$new[$plaseholder] = $execute[$plaseholder] ?? null;
+					
+					unset ( $execute[$plaseholder] );
+				}
+			}
+		}
+
+		return $new;
 	}
 	
 	/*
 		- Проверяем данные на мульти-запрос
 	*/
-	protected function isMulti( array $array )
+	protected function isMulti( array $array ): bool
 	{
 		if ( is_array ( current ( $array ) ) )
 		{
-			foreach ( $array AS $items )
+			/* foreach ( $array AS $items )
 			{
 				if ( !is_array ( $items ) )
 				{
 					throw new Exception( 'Ошибка в мульти добавлении, запрос не выполнен. Ожидался полный многомерный массив.' );
 				}
-			}
+			} */
 			
-			return TRUE;
+			return true;
 		}
 		else
 		{
@@ -116,7 +180,7 @@ class Migrate
 				}
 			}
 			
-			return FALSE;
+			return false;
 		}
 	}
 	
@@ -125,9 +189,14 @@ class Migrate
 	*/
 	protected function multiExecute( array $executes )
 	{
-		foreach ( $executes AS $execute )
+		foreach ( $executes AS $s => $execute )
 		{
-			self::$instance -> driver -> execute( $execute );
+			if ( !is_array ( $execute ) )
+			{
+				throw new Exception( 'Ошибка в мульти добавлении, ожидался массив. Ступень: ' . $s );
+			}
+			
+			self::$instance -> execute( $execute );
 		}
 	}
 }
