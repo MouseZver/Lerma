@@ -2,13 +2,15 @@
 
 namespace Aero\Supports;
 
+# 30 Seconds To Mars - Stranger In A Strange Land
+
 use Aero\
 {
-	Database\Migrate
-	# Interfaces\Instance
+	Database\Migrate,
+	Interfaces\Instance
 };
 
-final class Lerma extends Migrate # implements Instance
+final class Lerma extends Migrate #implements Instance
 {
 	public const 
 		FETCH_NUM		= 1,
@@ -23,6 +25,8 @@ final class Lerma extends Migrate # implements Instance
 		FETCH_FUNC		= 586,
 		FETCH_CLASS		= 977,
 		FETCH_CLASSTYPE	= 473;
+	
+	protected $version = '0.12.7-dev';
 	
 	/* public static function select( array $execute, callable $callable )
 	{
