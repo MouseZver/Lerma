@@ -45,7 +45,7 @@ $query = Lerma::query( $sql ) -> fetchAll( Lerma::FETCH_OBJ );
 
 # ------------------------
 
-$sql = [ [ 'SELECT * FROM %s WHERE id IN ( ?,?,? )', $table ], [ 3,9,81 ] ];
+$sql = [ [ 'SELECT * FROM %s WHERE id IN ( :id,?,?,? )', $table ], [ 3,9,81,':id'=>1 ] ];
 
 $prepare = Lerma::prepare( ...$sql ) -> fetchAll( Lerma::FETCH_OBJ );
 
