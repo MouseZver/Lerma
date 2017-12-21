@@ -9,6 +9,7 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 	private $statement;
 	private $result;
 	private $bind_result = [];
+	private $transaction = false;
 	
 	/*
 		- Подключение...
@@ -85,7 +86,10 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 		
 		if ( !in_array ( $this -> statement, [ null, true, false ], true ) )
 		{
-			$this -> statement -> close();
+			if ( is_a ( $this -> statement, mysqli_stmt::class ) || $this -> transaction === false )
+			{
+				$this -> statement -> close();
+			}
 		}
 		
 		return $this;
@@ -413,6 +417,39 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 		return $this -> statement -> insert_id ?? 0;
 	}
 	
+	/*
+		- Откат текущей транзакции
+	*/
+	public function rollback( ...$rollback ): bool
+	{
+		$this -> transaction = false;
+		
+		return $this -> connect -> rollback( ...$rollback );
+	}
+	
+	/*
+		- Стартует транзакцию
+	*/
+	public function begin_transaction( ...$rollback ): bool
+	{
+		$this -> transaction = true;
+		
+		return $this -> connect -> begin_transaction( ...$rollback );
+	}
+	
+	/*
+		- Завершает текущую транзакцию
+	*/
+	public function commit( ...$commit ): bool
+	{
+		$this -> transaction = false;
+		
+		return $this -> connect -> commit( ...$commit );
+	}
+	
+	/*
+		- ...
+	*/
 	public function __call( $method, $arguments )
 	{
 		return $this -> statement -> $method( ...$arguments );
