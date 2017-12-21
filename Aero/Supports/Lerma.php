@@ -26,7 +26,10 @@ final class Lerma extends Migrate #implements Instance
 		FETCH_CLASS		= 977,
 		FETCH_CLASSTYPE	= 473;
 	
-	protected $version = '0.12.7-dev';
+	public const VERSION = [
+		'Lerma' => '0.13.0-dev',
+		'mysqli' => '89a42488c45183fd52c4d2965a22edfa',
+	];
 	
 	/* public static function select( array $execute, callable $callable )
 	{
