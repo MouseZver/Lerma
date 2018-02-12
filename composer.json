@@ -24,7 +24,8 @@
 		"source": "https://github.com/MouseZver/Lerma"
 	},
 	"require": {
-		"php": ">=7.1"
+		"php": ">=7.1",
+		"MouseZver/Lerma": "1.0.0-alpha5"
 	},
 	"autoload": {
 		"psr-4": {
