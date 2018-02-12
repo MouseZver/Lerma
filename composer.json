@@ -15,7 +15,7 @@
 			"role": "creator"
 		}
 	],
-	
+	"minimum-stability": "dev",
 	"require": {
 		
 	},
