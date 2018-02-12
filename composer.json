@@ -1,6 +1,5 @@
 {
 	"name": "MouseZver/Lerma",
-	"version": "1.0.0-alpha5",
 	"type": "library",
 	"time": "2018-02-12",
 	"description": "The Lerma database.",
@@ -31,6 +30,5 @@
 		"psr-4": {
 			"Aero\\": "src/Aero"
 		}
-	},
-	"minimum-stability": "alpha"
+	}
 }
