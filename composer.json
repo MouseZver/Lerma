@@ -1,5 +1,5 @@
 {
-	"name": "mousezver\/lerma",
+	"name": "mousezver/lerma",
 	"version": "1.0.0-alpha5",
 	"type": "library",
 	"time": "2018-02-12",
@@ -20,16 +20,16 @@
 	],
 	"support": {
 		"email": "mouse-zver@xaker.ru",
-		"forum": "https:\/\/php.ru\/forum\/threads\/66098\/",
-		"wiki": "https:\/\/github.com\/MouseZver\/Lerma\/wiki",
-		"source": "https:\/\/github.com\/MouseZver\/Lerma"
+		"forum": "https://php.ru/forum/threads/66098/",
+		"wiki": "https://github.com/MouseZver/Lerma/wiki",
+		"source": "https://github.com/MouseZver/Lerma"
 	},
 	"require": {
 		"php": ">=7.1"
 	},
 	"autoload": {
 		"psr-4": {
-			"Aero\\": "src\/Aero"
+			"Aero\\": "src/Aero"
 		}
 	},
 	"minimum-stability": "alpha"
