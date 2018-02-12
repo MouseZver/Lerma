@@ -1,6 +1,7 @@
 {
 	"name": "mousezver/testlerma",
 	"description": "The Lerma database.",
+	"type": "tool",
 	"keywords": [
 		"framework",
 		"Aero",
@@ -17,6 +18,7 @@
 	],
 	"minimum-stability": "dev",
 	"require": {
+		"php": ">=5.5",
 		"mousezver/testlerma": ">=2.7.0-dev,<2.7.0"
 	},
 	"autoload": {
