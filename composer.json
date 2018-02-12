@@ -23,10 +23,6 @@
 		"wiki": "https://github.com/MouseZver/Lerma/wiki",
 		"source": "https://github.com/MouseZver/Lerma"
 	},
-	"require": {
-		"php": ">=7.1",
-		"MouseZver/Lerma": "1.0.0-alpha5"
-	},
 	"autoload": {
 		"psr-4": {
 			"Aero\\": "src/Aero"
