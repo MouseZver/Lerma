@@ -15,12 +15,7 @@
 			"role": "creator"
 		}
 	],
-	//"support": {
-	//	"email": "mouse-zver@xaker.ru",
-	//	"forum": "https://php.ru/forum/threads/66098/",
-	//	"wiki": "https://github.com/MouseZver/Lerma/wiki",
-	//	"source": "https://github.com/MouseZver/Lerma"
-	//},
+	
 	"require": {
 		
 	},
