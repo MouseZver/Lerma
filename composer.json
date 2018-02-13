@@ -1,7 +1,8 @@
 {
+	
 	"name": "aero/lerma",
 	"description": "The Lerma database.",
-	"type": "tool",
+	"type": "package",
 	"keywords": [
 		"framework",
 		"Aero",
@@ -17,7 +18,8 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1"
+		"php": ">=7.1",
+		"aero/lerma": "1.0.0-alpha5"
 	},
 	"autoload": {
 		"psr-4": {
