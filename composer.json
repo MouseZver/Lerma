@@ -1,29 +1,14 @@
 {
-	
-	"name": "aero/lerma",
-	"description": "The Lerma database.",
-	"version": "dev-master",
-	"type": "package",
-	"keywords": [
-		"Aero",
-		"Lerma",
-		"database"
-	],
-	"license": "MIT",
-	"minimum-stability": "dev",
-	"authors": [
-		{
-			"name": "MouseZver",
-			"email": "mouse-zver@xaker.ru",
-			"role": "creator"
-		}
-	],
-	"require": {
-		"php": ">=7.1"
-	},
-	"autoload": {
-		"psr-4": {
-			"Aero\\": "src/"
-		}
-	}
+    "name": "aero/lerma",
+    "description": "Aero",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MouseZver",
+            "email": "mouse-zver@xaker.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
 }
