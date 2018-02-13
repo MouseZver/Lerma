@@ -1,41 +1,21 @@
 {
-	"packages": [
+    "name": "aero/lerma",
+    "description": "Aero",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
         {
-            "name": "aero/lerma",
-            "version": "v1.0.0-alpha5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/MouseZver/lerma.git",
-                "reference": "085eae60d23b2c383970e55582acf1d9222fac25"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MouseZver/lerma/zipball/085eae60d23b2c383970e55582acf1d9222fac25",
-                "reference": "085eae60d23b2c383970e55582acf1d9222fac25",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "MouseZver",
-                    "email": "mouse-zver@xaker.ru"
-                }
-            ],
-            "description": "Aero",
-            "time": "2018-02-13T21:03:32+00:00",
-			"minimum-stability": "dev",
-			"require": {
-				"php": ">=7.1"
-			},
-			"autoload": {
-				"psr-4": {
-					"Aero\\": "src/Lerma"
-				}
-			}
+            "name": "MouseZver",
+            "email": "mouse-zver@xaker.ru"
         }
-    ]
+    ],
+    "minimum-stability": "dev",
+	"require": {
+		"php": ">=7.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"Aero\\": "src/Lerma"
+		}
+	},
 }
