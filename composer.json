@@ -11,6 +11,7 @@
 		"database"
 	],
 	"license": "MIT",
+	"minimum-stability": "dev",
 	"authors": [
 		{
 			"name": "MouseZver",

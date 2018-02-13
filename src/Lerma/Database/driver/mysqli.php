@@ -56,9 +56,9 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 		return $this -> statement -> execute();
 	}
 	
-	public function bindParam( array $types, array $array )
+	public function bindParam( array ...$items )
 	{
-		$arguments = array_merge ( [ implode ( '', $types ) ], $array );
+		$arguments = array_merge ( [ implode ( '', $items[0] ) ], $items[1] );
 		
 		return $this -> statement -> bind_param( ...$arguments );
 	}
@@ -75,6 +75,9 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 		$this -> statement = $this -> query = $this -> result = null;
 	}
 	
+	/*
+		- Определение типа запроса в базу данных
+	*/
 	protected function result()
 	{
 		if ( $this -> statement !== null )

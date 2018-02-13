@@ -216,7 +216,7 @@ array (
 
 # Lerma::FETCH_BIND
 
-Only statement query
+#Only statement query
 
 $a = Lerma::prepare( 'SELECT * FROM lerma WHERE ?', [1] ) -> fetch( Lerma::FETCH_BIND );
 /*
@@ -229,7 +229,7 @@ array (
 
 # Lerma::FETCH_BIND | Lerma::FETCH_COLUMN
 
-Only statement query
+#Only statement query
 
 $a = Lerma::prepare( 'SELECT name FROM lerma WHERE ?', [1] ) -> fetch( Lerma::FETCH_BIND | Lerma::FETCH_COLUMN );
 /*
@@ -265,7 +265,7 @@ array (
 )
 */
 
-Перезаписывает существующие ключи
+#Перезаписывает существующие ключи
 
 $b = Lerma::query( 'SELECT num, name FROM lerma' ) -> fetchAll( Lerma::FETCH_KEY_PAIR );
 /*
@@ -392,30 +392,6 @@ array (
 )
 */
 
-# Lerma::FETCH_GROUP | Lerma::FETCH_COLUMN
-
-$b = Lerma::query( 'SELECT num, name FROM lerma' ) -> fetchAll( Lerma::FETCH_GROUP | Lerma::FETCH_COLUMN );
-/*
-array (
-  111 => 
-  array (
-    0 => 'Aero\\test\\Aero',
-    1 => 'Lerma',
-    2 => 'Migrate',
-    3 => 'Database',
-  ),
-  222 => 
-  array (
-    0 => 'Configures',
-  ),
-  333 => 
-  array (
-    0 => 'Interfaces',
-    1 => 'LermaDrivers',
-  ),
-)
-*/
-
 # Lerma::FETCH_FUNC
 
 $a = Lerma::query( 'SELECT * FROM lerma' ) -> fetch( Lerma::FETCH_FUNC, function ( ...$res ) 
@@ -448,7 +424,7 @@ array (
 
 # test...
 
-
+var_export($b);
 
 
 

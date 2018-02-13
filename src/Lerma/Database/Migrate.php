@@ -144,7 +144,7 @@ class Migrate extends LermaStatement
 				- 
 			*/
 			case Lerma::FETCH_BIND | Lerma::FETCH_COLUMN:
-				if ( !$this -> bind() -> fetch() )
+				if ( !$this -> bind() -> fetch( Lerma::FETCH_BIND ) )
 				{
 					self::instance() -> driver -> isError( $this -> statement );
 					

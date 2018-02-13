@@ -37,11 +37,6 @@ interface IDrivers
 	public function close();
 	
 	/*
-		- Определение типа запроса в базу данных
-	*/
-	protected function result();
-	
-	/*
 		- Стиль возвращаемого результата с одной строки
 	*/
 	public function fetch( int $int );

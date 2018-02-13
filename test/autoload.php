@@ -2,5 +2,12 @@
 
 spl_autoload_register ( function ( $name )
 {
-	include strtr ( $name, [ '\\' => DIRECTORY_SEPARATOR, 'Aero\\' => '../src/' ] ) . '.php';
+	$replaces = [ 
+		'\\' => DIRECTORY_SEPARATOR, 
+		
+		# Aero Lerma
+		'Aero\\' => '../src/Lerma/' 
+	];
+	
+	include strtr ( $name, $replaces ) . '.php';
 } );

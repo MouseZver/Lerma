@@ -1,26 +1,64 @@
 # Lerma
-Multi-screwdriver for the database
+Multi-screwdriver for the database.
 
 ***
-### Preview:
+### Installation:
 ***
+> composer require aero/lerma=def-master
 
+or
+
+Download Lerma src to root directory, edit directory name 'src/Lerma' on 'Aero' and create autoloader.
 ```PHP
-INSERT INTO `lerma` (`name`, `num`) VALUES
-('Aero\\test\\Aero', 111),
-('Lerma', 111),
-('Migrate', 111),
-('Database', 111),
-('Configures', 222),
-('Interfaces', 333),
-('LermaDrivers', 333);
+<?php
+
+spl_autoload_register ( function ( $name )
+{
+	include strtr ( $name, [ '\\' => DIRECTORY_SEPARATOR ] ) . '.php';
+} );
 ```
+
+***
+### Configures:
+***
+> directory: src/Lerma/Configures/Lerma.php
+
 ```PHP
-$table = 'lerma';
+<?php
 
-$sql = [ 'SELECT * FROM %s LIMIT 7', $table ]; # or 'SELECT * FROM lerma'
+namespace Aero\Configures;
 
-$query = Lerma::query( $sql ) -> fetchAll( Lerma::FETCH_UNIQUE );
+class Lerma
+{
+	private const USER = 'root';
+	private const PASSWORD = '';
+	
+	# Назначение драйвера для подключения базы данных
+	public $driver = 'mysqli';
+	
+	# Параметры для драйвера mysqli
+	public $mysqli = [
+		'host' => '127.0.0.1',
+		'user' => self::USER,
+		'password' => self::PASSWORD,
+		'dbname' => 'single',
+		'port' => 3306
+	];
+};
+```
 
-Lerma::prepare( 'INSERT INTO lerma ( name, num ) VALUES ( ?, ? )', $query );
+***
+### Start Project:
+***
+
+```PHP
+<?php
+
+use Aero\Supports\Lerma;
+
+# Autoloader <name.php>
+
+/* 
+Lerma:: ...
+*/
 ```
