@@ -19,7 +19,7 @@
 	],
 	"require": {
 		"php": ">=7.1",
-		"aero/lerma": "1.0.0-alpha5"
+		"aero/lerma": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
