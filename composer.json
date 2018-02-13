@@ -2,6 +2,7 @@
 	
 	"name": "aero/lerma",
 	"description": "The Lerma database.",
+	"version": "dev-master"
 	"type": "package",
 	"keywords": [
 		"framework",
