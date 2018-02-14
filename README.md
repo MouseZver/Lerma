@@ -1,4 +1,7 @@
+Normal Text
 [![Latest Unstable Version](https://poser.pugx.org/aero/lerma/v/unstable)](https://packagist.org/packages/aero/lerma)[![License](https://poser.pugx.org/aero/lerma/license)](https://packagist.org/packages/aero/lerma)[![composer.lock](https://poser.pugx.org/aero/lerma/composerlock)](https://packagist.org/packages/aero/lerma)
+Normal Text
+
 # Lerma
 Multi-screwdriver for the database.
 
