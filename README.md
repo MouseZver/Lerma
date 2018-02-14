@@ -67,6 +67,6 @@ Lerma:: ...
 
 ***
 
-[Lerma Wiki](/MouseZver/Lerma/wiki)
+[Lerma Wiki](https://github.com/MouseZver/Lerma/wiki)
 
 Create by MouseZver
