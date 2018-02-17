@@ -15,7 +15,7 @@ use Exception AS Error;
 
 final class Lerma extends Migrate #implements Instance
 {
-	public const 
+	public const
 		FETCH_NUM		= 1,
 		FETCH_ASSOC		= 2,
 		FETCH_OBJ		= 4,
@@ -28,22 +28,22 @@ final class Lerma extends Migrate #implements Instance
 		FETCH_FUNC		= 586,
 		FETCH_CLASS		= 977,
 		FETCH_CLASSTYPE	= 473;
-	
+
 	/* public static function select( array $execute, callable $callable )
 	{
 		static::load( __METHOD__, ( $execute ?: NULL ), $callable );
 	}
 	public static function insert( array $execute, callable $callable )
 	{
-		
+
 	}
 	public static function create( array $execute, callable $callable )
 	{
-		
+
 	}
 	public static function delete( array $execute, callable $callable )
 	{
-		
+
 	} */
 	public static function __callStatic( $method, $args )
 	{
@@ -55,60 +55,60 @@ final class Lerma extends Migrate #implements Instance
 				{
 					throw new Error( 'Данные пусты. Используйте функцию query' );
 				}
-				
+
 				[ $sql, $execute ] = $args;
-				
+
 				static::instance() -> dead() -> replaceHolders( $sql );
-				
+
 				$statement = static::prepare( $sql );
-				
+
 				if ( static::instance() -> isMulti( $execute ) )
 				{
 					static::instance() -> driver -> beginTransaction();
-					
+
 					$e = $statement -> multiExecute( $execute );
-					
+
 					static::instance() -> driver -> commit();
 				}
 				else
 				{
 					$e = $statement -> execute( $execute );
 				}
-				
+
 				return $e;
 			}
 			elseif ( $method === 'query' )
 			{
 				return static::query( ...$args );
 			}
-			
+
 			return static::instance() -> driver -> $method( ...$args );
 		}
 		catch ( Throwable $t )
 		{
 			static::instance() -> driver -> rollBack();
-			
+
 			$this -> exceptionIDriver( $t );
 		}
 	}
-	
+
 	public function __call( $method, $args )
 	{
-		if ( in_array ( $method, [ 'fetch', 'fetchAll' ] ) )
+		try
 		{
-			try
+			if ( in_array ( $method, [ 'fetch', 'fetchAll', 'rowCount' ] ) )
 			{
 				return $this -> $method( ...$args );
 			}
-			catch ( Throwable $t )
-			{
-				$this -> exceptionIDriver( $t );
-			}
+
+			throw new Error( 'Неизвестный метод > ' . $method );
 		}
-		
-		return null;
+		catch ( Throwable $t )
+		{
+			$this -> exceptionIDriver( $t );
+		}
 	}
-	
+
 	protected function exceptionIDriver( Throwable $t )
 	{
 		exit ( sprintf ( '<pre>IDriver: %s' . PHP_EOL . '%s</pre>', $t -> getMessage(), $t -> getTraceAsString() ) );
