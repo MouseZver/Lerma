@@ -69,4 +69,4 @@ Lerma:: ...
 
 [Lerma Wiki](https://github.com/MouseZver/Lerma/wiki)
 
-Create by MouseZver
+Create by [MouseZver](https://php.ru/forum/members/40235)
