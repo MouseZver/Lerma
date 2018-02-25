@@ -19,20 +19,13 @@ class Migrate extends LermaStatement
 	*/
 	protected function IDrivers( string $name ): Migrate
 	{
-		$driverPath = 'driver' . DIRECTORY_SEPARATOR . ( $Lerma = new $name() ) -> driver . '.php';
-
-		if ( !file_exists ( __DIR__ . DIRECTORY_SEPARATOR . $driverPath ) )
-		{
-			throw new Error( 'Драйвер Лермы не найден. ' . $driverPath );
-		}
-
-		$this -> driver = require $driverPath;
+		$this -> driver = require 'driver' . DIRECTORY_SEPARATOR . ( $Lerma = new $name ) -> driver . '.php';
 
 		if ( !is_a ( $this -> driver, IDrivers::class ) )
 		{
 			throw new Error( 'Загруженный драйвер не соответсвует требованиям интерфейсу IDrivers' );
 		}
-
+		
 		return $this;
 	}
 
