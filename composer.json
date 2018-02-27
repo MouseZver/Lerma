@@ -10,7 +10,7 @@
             "email": "mouse-zver@xaker.ru"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "v1.1",
 	"require": {
 		"php": ">=7.1"
 	},
