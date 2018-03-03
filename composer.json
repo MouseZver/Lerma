@@ -2,7 +2,6 @@
     "name": "aero/lerma",
     "description": "Aero",
     "type": "library",
-    "version": "v1.1",
     "license": "MIT",
     "authors": [
         {
@@ -21,7 +20,7 @@
 	},
 	"extra": {
         "branch-alias": {
-            "dev-master": "v1.1-dev"
+            "dev-master": "v1.1.1-dev"
         }
 	}
 }
