@@ -88,7 +88,7 @@ final class Lerma extends Migrate #implements Instance
 		{
 			static::instance() -> driver -> rollBack();
 
-			$this -> exceptionIDriver( $t );
+			static::instance() -> exceptionIDriver( $t );
 		}
 	}
 
