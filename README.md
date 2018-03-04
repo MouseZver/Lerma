@@ -6,7 +6,7 @@ Multi-screwdriver for the database.
 ***
 ### Installation:
 ***
-> composer require aero/lerma=dev-master
+> composer require aero/lerma
 
 or
 
