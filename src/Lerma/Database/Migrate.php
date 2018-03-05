@@ -42,7 +42,7 @@ class Migrate extends LermaStatement
 			}
 			catch ( Throwable $t )
 			{
-				self::$instance -> exceptionIDriver( $t );
+				( new static ) -> exceptionIDriver( $t );
 			}
 		}
 
@@ -188,9 +188,7 @@ class Migrate extends LermaStatement
 					return null;
 				}
 
-				[ $key, $value ] = $items;
-
-				return [ $key => $value ];
+				return [ $items[0] => $items[1] ];
 			break;
 
 			/*
@@ -321,22 +319,22 @@ class Migrate extends LermaStatement
 
 				$all = [];
 
-				while ( [ $a, $b ] = $this -> driver -> fetch( Lerma::FETCH_NUM ) )
+				while ( $num = $this -> driver -> fetch( Lerma::FETCH_NUM ) )
 				{
-					if ( $fetch_style === ( Lerma::FETCH_KEY_PAIR | Lerma::FETCH_NAMED ) && isset ( $all[$a] ) )
+					if ( $fetch_style === ( Lerma::FETCH_KEY_PAIR | Lerma::FETCH_NAMED ) && isset ( $all[$num[0]] ) )
 					{
-						if ( is_array ( $all[$a] ) )
+						if ( is_array ( $all[$num[0]] ) )
 						{
-							$all[$a][] = $b;
+							$all[$num[0]][] = $num[1];
 						}
 						else
 						{
-							$all[$a] = [ $all[$a], $b ];
+							$all[$num[0]] = [ $all[$num[0]], $num[1] ];
 						}
 					}
 					else
 					{
-						$all[$a] = $b;
+						$all[$num[0]] = $num[1];
 					}
 				}
 

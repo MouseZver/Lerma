@@ -4,8 +4,8 @@ namespace Aero\Configures;
 
 class Lerma
 {
-	private const USER = 'root';
-	private const PASSWORD = '';
+	const USER = 'root';
+	const PASSWORD = '';
 	
 	# Назначение драйвера для подключения базы данных
 	public $driver = 'mysqli';
@@ -15,7 +15,7 @@ class Lerma
 		'host' => '127.0.0.1',
 		'user' => self::USER,
 		'password' => self::PASSWORD,
-		'dbname' => 'single',
+		'dbname' => 'git',
 		'port' => 3306
 	];
 };

@@ -15,7 +15,7 @@ use Exception AS Error;
 
 final class Lerma extends Migrate #implements Instance
 {
-	public const
+	const
 		FETCH_NUM		= 1,
 		FETCH_ASSOC		= 2,
 		FETCH_OBJ		= 4,
@@ -56,23 +56,21 @@ final class Lerma extends Migrate #implements Instance
 					throw new Error( 'Данные пусты. Используйте функцию query' );
 				}
 
-				[ $sql, $execute ] = $args;
+				static::instance() -> dead() -> replaceHolders( $args[0] );
 
-				static::instance() -> dead() -> replaceHolders( $sql );
+				$statement = static::prepare( $args[0] );
 
-				$statement = static::prepare( $sql );
-
-				if ( static::instance() -> isMulti( $execute ) )
+				if ( static::instance() -> isMulti( $args[1] ) )
 				{
 					static::instance() -> driver -> beginTransaction();
 
-					$e = $statement -> multiExecute( $execute );
+					$e = $statement -> multiExecute( $args[1] );
 
 					static::instance() -> driver -> commit();
 				}
 				else
 				{
-					$e = $statement -> execute( $execute );
+					$e = $statement -> execute( $args[1] );
 				}
 
 				return $e;
