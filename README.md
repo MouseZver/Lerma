@@ -22,6 +22,8 @@ spl_autoload_register ( function ( $name )
 } );
 ```
 
+[Тестовый пример](https://github.com/MouseZver/Lerma/blob/master/tests/test.php)
+
 ***
 ### Configures ( Данные для подключения ):
 ***
