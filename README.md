@@ -12,7 +12,7 @@ or
 
 Download Lerma src to root directory, edit directory name 'src/Lerma' on 'Aero' and create autoloader.
 
-Скачайте библиотеку Lerma из src в корень вашего проекта и переименуйте папку в Aero. Создайте в единой точке автозагрузчик: 
+[Скачайте](https://github.com/MouseZver/Lerma/archive/v1.1.2.zip) библиотеку Lerma из src в корень вашего проекта и переименуйте папку в Aero. Создайте в единой точке автозагрузчик: 
 ```PHP
 <?php
 
