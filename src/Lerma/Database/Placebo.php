@@ -30,17 +30,21 @@ final class Placebo extends Compile
 	
 	protected $access = [
 		'columns' => [
-			'unset' => 1,
-			'values' => 1,
+			'options' => [
+				'unset', 'values'
+			],
 			'command' => [ 'SELECT', 'INSERT' ]
 		],
 		'table' => [
-			'unset' => 1,
-			'values' => 1,
+			'options' => [
+				'unset', 'values'
+			],
 			'command' => [ 'SELECT', 'INSERT', 'DELETE', 'UPDATE' ]
 		],
 		'where' => [
-			'values' => 1,
+			'options' => [
+				'values'
+			],
 			'command' => [ 'SELECT', 'DELETE', 'UPDATE' ]
 		],
 	];
@@ -73,12 +77,12 @@ final class Placebo extends Compile
 		try
 		{
 			$this -> isAccessCall( $method ) 
-			-> isStructureCall( $method )
-			-> isValuesCall( $arg ) 
-			-> isCommandCall( $method )
-			-> $method( ...$arg );
+				-> isStructureCall( $method )
+				-> isValuesCall( $arg ) 
+				-> isCommandCall( $method )
+				-> $method( ...$arg );
 			
-			if ( isset ( $this -> access[$method]['unset'] ) )
+			if ( in_array ( 'unset', $this -> access[$method]['options'] ) )
 			{
 				unset ( $this -> access[$method] );
 			}
@@ -150,7 +154,7 @@ final class Placebo extends Compile
 	{
 		if ( !isset ( $this -> access[$a] ) )
 		{
-			throw new Error( 'isAccessCall' );
+			throw new Error( sprintf ( 'isAccessCall: Метод %s недоступен', $a ) );
 		}
 		
 		return $this;
@@ -294,12 +298,19 @@ final class Placebo extends Compile
 		}
 	}
 	
-	/*
-		- 
+	/* +
+		@ LIMIT 1, 2
 	*/
 	protected function limit( int ...$int )
 	{
-		$this -> structures[$this -> command]['limit'] = sprintf ( 'LIMIT %s', implode ( ', ', $int ) );
+		if ( in_array ( count ( $int ), [ 1, 2 ] ) )
+		{
+			$this -> structures[$this -> command]['limit'] = sprintf ( 'LIMIT %s', implode ( ', ', $int ) );
+			
+			return;
+		}
+		
+		throw new Error( 'Кол-во атрибутов LIMIT не соответсвует требованиям' );
 	}
 	
 	

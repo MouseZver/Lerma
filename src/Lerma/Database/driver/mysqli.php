@@ -104,6 +104,9 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 			case Lerma::FETCH_BIND:
 				return $this -> statement -> fetch();
 			break;
+			case Lerma::FETCH_FIELD:
+				return (array) $this -> result() -> fetch_field();
+			break;
 			default:
 				return null;
 		}
@@ -119,6 +122,9 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 			case Lerma::FETCH_ASSOC:
 				return $this -> result() -> fetch_all( MYSQLI_ASSOC );
 			break;
+			case Lerma::FETCH_FIELD:
+				return $this -> result() -> fetch_fields();
+			break;
 			default:
 				return null;
 		}
@@ -126,7 +132,7 @@ return new class ( $Lerma -> {$Lerma -> driver} ) implements IDrivers
 	
 	public function countColumn(): int
 	{
-		return $this -> connect -> field_count ?? 0;
+		return $this -> connect -> field_count;
 	}
 	
 	public function rowCount(): int

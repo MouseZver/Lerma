@@ -67,10 +67,10 @@ class Compile
 	
 	protected function whereCompile()
 	{
-		foreach ( $a AS [ $a, $b, $c ] )
+		/* foreach ( $a AS [ $a, $b, $c ] )
 		{
 			if (  )
-		}
+		} */
 		
 		unset ( $this -> structures[$this -> command]['where'] );
 	}
@@ -93,12 +93,22 @@ class Compile
 		unset ( $this -> structures[$this -> command]['order'] );
 	}
 	
-	
+	/*
+		@ LIMIT empty
+	*/
 	protected function limitCompile()
 	{
 		if ( empty ( $this -> structures[$this -> command]['limit'] ) )
 		{
 			unset ( $this -> structures[$this -> command]['limit'] );
 		}
+	}
+	
+	/*
+		@ insert
+	*/
+	protected function valuesCompile()
+	{
+		unset ( $this -> structures[$this -> command]['values'] );
 	}
 }

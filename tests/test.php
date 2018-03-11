@@ -1,5 +1,7 @@
 <?php
 
+error_reporting ( E_ALL );
+
 use Aero\Supports\Lerma;
 
 require 'autoload.php';
@@ -22,3 +24,8 @@ id: 142 | num: 222 | name: Configures
 id: 143 | num: 333 | name: Interfaces
 id: 144 | num: 333 | name: LermaDrivers
  */
+
+$query = Lerma::query( 'SELECT * FROM `lerma`' );
+
+print_r ( $query -> fetchAll( Lerma::FETCH_FIELD, 'orgname' ) );
+print_r ( $query -> fetchAll( Lerma::FETCH_ASSOC ) );

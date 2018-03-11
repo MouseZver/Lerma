@@ -1,8 +1,13 @@
 <?php
 
-namespace Aero\Supports;
+/*
+	@ Author: MouseZver
+	@ Email: mouse-zver@xaker.ru
+	@ url-source: http://github.com/MouseZver/Lerma
+	@ php-version 7.0
+*/
 
-# 30 Seconds To Mars - Stranger In A Strange Land
+namespace Aero\Supports;
 
 use Aero\
 {
@@ -27,8 +32,15 @@ final class Lerma extends Migrate #implements Instance
 		FETCH_GROUP		= 428,
 		FETCH_FUNC		= 586,
 		FETCH_CLASS		= 977,
-		FETCH_CLASSTYPE	= 473;
-
+		FETCH_CLASSTYPE	= 473,
+		FETCH_FIELD		= 343;
+	
+	private $method = [ 
+		'fetch', 
+		'fetchAll', 
+		'rowCount', 
+		'countColumn', 
+	];
 	/* public static function select( array $execute, callable $callable )
 	{
 		static::load( __METHOD__, ( $execute ?: NULL ), $callable );
@@ -94,7 +106,7 @@ final class Lerma extends Migrate #implements Instance
 	{
 		try
 		{
-			if ( in_array ( $method, [ 'fetch', 'fetchAll', 'rowCount' ] ) )
+			if ( in_array ( $method, $this -> method ) )
 			{
 				return $this -> $method( ...$args );
 			}

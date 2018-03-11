@@ -1,16 +1,18 @@
-[![Latest Unstable Version](https://poser.pugx.org/aero/lerma/v/unstable)](https://packagist.org/packages/aero/lerma) [![License](https://poser.pugx.org/aero/lerma/license)](https://packagist.org/packages/aero/lerma) [![composer.lock](https://poser.pugx.org/aero/lerma/composerlock)](https://packagist.org/packages/aero/lerma)
+[![Latest Unstable Version](https://poser.pugx.org/aero/lerma/v/unstable)](https://packagist.org/packages/aero/lerma) [![License](https://poser.pugx.org/aero/lerma/license)](https://packagist.org/packages/aero/lerma)
 
 # Lerma
 Multi-screwdriver for the database.
 
 ***
-### Installation:
+### Installation ( Установка ):
 ***
-> composer require aero/lerma=dev-master
+> composer require aero/lerma
 
 or
 
 Download Lerma src to root directory, edit directory name 'src/Lerma' on 'Aero' and create autoloader.
+
+[Скачайте](https://github.com/MouseZver/Lerma/archive/v1.1.2.1.zip) библиотеку Lerma из src в корень вашего проекта и переименуйте папку в Aero. Создайте в единой точке автозагрузчик: 
 ```PHP
 <?php
 
@@ -20,8 +22,10 @@ spl_autoload_register ( function ( $name )
 } );
 ```
 
+[Тестовый пример](https://github.com/MouseZver/Lerma/blob/master/tests/test.php)
+
 ***
-### Configures:
+### Configures ( Данные для подключения ):
 ***
 > directory: src/Lerma/Configures/Lerma.php
 
@@ -50,7 +54,7 @@ class Lerma
 ```
 
 ***
-### Start Project:
+### Start Project ( Начало работы ):
 ***
 
 ```PHP
