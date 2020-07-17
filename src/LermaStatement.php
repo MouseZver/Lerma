@@ -12,7 +12,7 @@ declare ( strict_types = 1 );
 namespace Nouvu\Database;
 
 use Error;
-use Nouvu\Config;
+use Nouvu\Config\Config;
 
 final class LermaStatement extends ComponentFetch
 {

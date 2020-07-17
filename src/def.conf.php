@@ -25,11 +25,11 @@ return [
 	],
 	'StartingDriver' => false,
 	'ShemaStartingDriver' => [
-		'sqlite' => static function ( Nouvu\Database\Lerma $lrm, Nouvu\Config $config )
+		'sqlite' => static function ( Nouvu\Database\Lerma $lrm, Nouvu\Config\Config $config )
 		{
 			//$lrm -> query( 'SET SESSION group_concat_max_len = 1024000' );
 		},
-		'mysql' => static function ( Nouvu\Database\Lerma $lrm, Nouvu\Config $config )
+		'mysql' => static function ( Nouvu\Database\Lerma $lrm, Nouvu\Config\Config $config )
 		{
 			//$lrm -> query( 'SET SESSION group_concat_max_len = 1024000' );
 		}
