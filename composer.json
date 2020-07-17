@@ -23,7 +23,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Nouvu\\Database": "src"
+			"Nouvu\\Database\\": "src"
 		}
 	}
 }
