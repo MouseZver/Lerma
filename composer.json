@@ -18,8 +18,8 @@
     ],
 	"require": {
 		"php": ">=7.4",
-		"nouvu/lermaext": "dev-master",
-		"nouvu/config": "3.1"
+		"nouvu/lermaext": "v2.0",
+		"nouvu/config": "v3.1"
 	},
 	"autoload": {
 		"psr-4": {
