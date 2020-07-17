@@ -1,4 +1,4 @@
-[![Latest Unstable Version](https://poser.pugx.org/aero/lerma/v/unstable)](https://packagist.org/packages/aero/lerma) [![License](https://poser.pugx.org/aero/lerma/license)](https://packagist.org/packages/aero/lerma)
+[![Latest Unstable Version](https://poser.pugx.org/Nouvu/lerma/v)](https://packagist.org/packages/nouvu/lerma) [![License](https://poser.pugx.org/nouvu/lerma/license)](https://packagist.org/packages/nouvu/lerma)
 
 # Lerma
 Multi-screwdriver for the database.
