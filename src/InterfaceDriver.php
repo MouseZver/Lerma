@@ -1,35 +1,34 @@
 <?php
 
-namespace Aero\Interfaces\Lerma;
+declare ( strict_types = 1 );
 
-interface IDrivers
+/*
+	@ Author: MouseZver
+	@ Email: mouse-zver@xaker.ru
+	@ url-source: http://github.com/MouseZver/Lerma
+	@ php-version 7.4
+*/
+
+namespace Nouvu\Database;
+
+interface InterfaceDriver
 {
 	public function isError();
 	
 	/*
 		- Простой запрос
 	*/
-	public function query( string $item );
+	public function query( string $item ): void;
 	
 	/*
 		- Подготовленный запрос
 	*/
-	public function prepare( string $item );
+	public function prepare( string $item ): void;
 	
 	/*
-		- Посылаем данные в бд по подготовленному запросу
+		- посылаем данные
 	*/
-	public function execute();
-	
-	/*
-		- 
-	*/
-	public function bindParam( array ...$items );
-	
-	/*
-		- 
-	*/
-	public function bindResult( $item );
+	public function binding( array $items );
 	
 	/*
 		- 
@@ -49,7 +48,7 @@ interface IDrivers
 	/*
 		- Кол-во затронутых колонок
 	*/
-	public function countColumn(): int;
+	public function columnCount(): int;
 	
 	/*
 		- Возвращает кол-во затронутых строк

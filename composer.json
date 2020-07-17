@@ -1,26 +1,29 @@
 {
-    "name": "aero/lerma",
-    "description": "Aero",
+    "name": "nouvu/lerma",
+    "description": "Multi-screwdriver for the database Nouvu/Database",
     "type": "library",
-    "license": "MIT",
+    "license": "Apache-2.0",
+	"homepage": "https://github.com/MouseZver/Lerma",
+	"authors": [
+        "db",
+		"mysqli",
+		"sqlite3",
+		"Nouvu/Database"
+    ],
     "authors": [
         {
             "name": "MouseZver",
             "email": "mouse-zver@xaker.ru"
         }
     ],
-    "minimum-stability": "dev",
 	"require": {
-		"php": ">=7.0"
+		"php": ">=7.4",
+		"nouvu/lermaext": "dev-master",
+		"nouvu/config": "3.1"
 	},
 	"autoload": {
 		"psr-4": {
-			"Aero\\": "src/Lerma"
+			"Nouvu\\Database": "src"
 		}
-	},
-	"extra": {
-        "branch-alias": {
-            "dev-master": "v1.1.2.1-dev"
-        }
 	}
 }
