@@ -43,7 +43,7 @@ class Lerma extends Core
 	
 	public function __construct( string $dsn = null, callable $callable = null )
 	{
-		$this -> config = new Config( include_once $this -> default_config, '.' );
+		$this -> config = new Config( include $this -> default_config, '.' );
 		
 		if ( is_callable ( $callable ) )
 		{
@@ -151,7 +151,7 @@ class Lerma extends Core
 	{
 		if ( $this -> inTransaction )
 		{
-			return $this -> connect -> rollback( ...$rollback );
+			return $this -> InterfaceDriver -> rollback( ...$rollback );
 		}
 		
 		return false;
@@ -166,7 +166,7 @@ class Lerma extends Core
 		
 		$this -> inTransaction = true;
 		
-		return $this -> connect -> beginTransaction( ...$rollback );
+		return $this -> InterfaceDriver -> beginTransaction( ...$rollback );
 	}
 	
 	public function commit( ...$commit ): bool
@@ -175,7 +175,7 @@ class Lerma extends Core
 		{
 			$this -> inTransaction = false;
 			
-			return $this -> connect -> commit( ...$commit );
+			return $this -> InterfaceDriver -> commit( ...$commit );
 		}
 		
 		return false;
@@ -183,12 +183,12 @@ class Lerma extends Core
 	
 	public static function getAvailableDrivers(): array
 	{
-		return array_keys ( ( include_once $this -> default_config )['drivers'] );
+		return array_keys ( ( include $this -> default_config )['drivers'] );
 	}
 	
 	public function InsertID(): int
 	{
-		return $this -> connect -> InsertID();
+		return $this -> InterfaceDriver -> InsertID();
 	}
 }
 # END

@@ -246,7 +246,7 @@ class ComponentFetch
 	*/
 	protected function fetch_column( int $fetch_style, $fetch_argument )
 	{
-		return $this -> InterfaceDriver -> fetch( Lerma :: FETCH_NUM )[0];
+		return $this -> InterfaceDriver -> fetch( Lerma :: FETCH_NUM )[0] ?? null;
 	}
 
 	/*

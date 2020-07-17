@@ -10,7 +10,7 @@ return [
 			'port' => 3306,
 			'charset' => 'utf8',
 			'username' => 'root',
-			'password' => ''
+			'password' => 'root'
 		],
 		'sqlite' => [
 			'namespace' => Nouvu\Database\LermaExt\Sqlite :: class,

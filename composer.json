@@ -8,7 +8,7 @@
         "db",
 		"mysqli",
 		"sqlite3",
-		"Nouvu/Database"
+		"Database"
     ],
     "authors": [
         {
