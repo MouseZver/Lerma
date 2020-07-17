@@ -1,6 +1,6 @@
 [![Latest Unstable Version](https://poser.pugx.org/Nouvu/lerma/v)](https://packagist.org/packages/nouvu/lerma) [![License](https://poser.pugx.org/nouvu/lerma/license)](https://packagist.org/packages/nouvu/lerma)
 
-> composer require aero/lerma
+> composer require nouvu/lerma
 
 [Lerma Wiki](https://github.com/MouseZver/Lerma/wiki)
 
