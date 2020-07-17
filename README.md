@@ -1,5 +1,4 @@
-[![Latest Unstable Version](https://poser.pugx.org/nouvu/lerma/v/stable)](https://packagist.org/packages/aero/lerma)
-[![License](https://poser.pugx.org/nouvu/lerma/license)](//packagist.org/packages/nouvu/lerma)
+[![Latest Unstable Version](https://poser.pugx.org/nouvu/lerma/v/stable)](https://packagist.org/packages/aero/lerma) [![License](https://poser.pugx.org/nouvu/lerma/license)](//packagist.org/packages/nouvu/lerma)
 
 > composer require nouvu/lerma
 
