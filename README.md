@@ -7,21 +7,21 @@
 #### dsn-minimum options:
 
 ```php
-$lrm = new Nouwu\Database\Lerma; // default load -> mysql ext
+$lrm = new Nouvu\Database\Lerma; // default load -> mysql ext
 
-$lrm = new Nouwu\Database\Lerma( 'sqlite' );
+$lrm = new Nouvu\Database\Lerma( 'sqlite' );
 
-$lrm = new Nouwu\Database\Lerma( 'mysql' );
+$lrm = new Nouvu\Database\Lerma( 'mysql' );
 
-$lrm = new Nouwu\Database\Lerma( 'mysql:dbname=git;charset=utf8;username=root;password=root' );
+$lrm = new Nouvu\Database\Lerma( 'mysql:dbname=git;charset=utf8;username=root;password=root' );
 
-$lrm = new Nouwu\Database\Lerma( 'sqlite:db=test.db' );
+$lrm = new Nouvu\Database\Lerma( 'sqlite:db=test.db' );
 ```
 
 #### dsn-max options:
 
 ```php
-$lrm = new Nouwu\Database\Lerma( sprintf ( 'mysql:namespace=%s;host=%s;port=%s;dbname=%s;charset=%s;username=%s;password=%s',
+$lrm = new Nouvu\Database\Lerma( sprintf ( 'mysql:namespace=%s;host=%s;port=%s;dbname=%s;charset=%s;username=%s;password=%s',
 	
 	# namespace string for load Ext
 	Nouvu\Database\LermaExt\Mysql :: class,
@@ -50,7 +50,7 @@ $lrm = new Nouwu\Database\Lerma( sprintf ( 'mysql:namespace=%s;host=%s;port=%s;d
 #### emulate prepares:
 
 ```php
-$lrm = new Nouwu\Database\Lerma( 'mysql', static function ( Nouvu\Config\Config $config )
+$lrm = new Nouvu\Database\Lerma( 'mysql', static function ( Nouvu\Config\Config $config )
 {
 	$config -> set( 'ShemaActiveFun.replaceHolders.mysql', fn( &$a ) => $a = true ); // default true
 } );
