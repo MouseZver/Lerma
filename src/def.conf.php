@@ -37,26 +37,26 @@ return [
 	'ShemaExceptionConnect' => [
 		'mysql' => static function ( mysqli_sql_exception $mysqli_sql_exception )
 		{
-			
+			throw $mysqli_sql_exception;
 		},
 	],
 	'errMessage' => [
-		'driver' => 'Ошибка в выборе драйвера: %s',
+		'driver' => 'Error in driver selection: %s',
 		'prepare' => [
-			'items' => 'Аргумент 2 пуст',
-			'vars' => 'Отсутствуют в запросе псевдопеременные',
+			'items' => 'Argument 2 is empty',
+			'vars' => 'Missing pseudo-variables in the request',
 		],
 		'statement' => [
 			'hash' => 'Session ended by calling another',
 			'keyName' => 'unrecognized key name in fetch_style argument',
 			'columnCount' => [
 				'only' => [
-					1 => 'Требуется выбрать только одну колонку',
-					2 => 'Требуется выбрать только две колонки',
+					1 => 'You only need to select one column',
+					2 => 'You only need to select two columns',
 				],
-				'min' => 'Допустимое кол-во выбраных колонок не менее двух',
+				'min' => 'Allowed number of selected columns at least two',
 			],
-			'bindResult' => 'Для правильной работы, откажитесь от использования метода rowCount, во время выборки в небуферизованном результате',
+			'bindResult' => 'For proper operation, do not use the rowСount method during sampling in the unbuffered result',
 		],
 		'connect' => [
 			'mysql' => 'Error connect (%s) %s',
