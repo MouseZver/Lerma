@@ -68,7 +68,7 @@ class Lerma extends Core
 			
 			$this -> inDriverName();
 			
-			parse_str ( $db = strtr ( substr ( $dsn, $n ), ';', '&' ), $get );
+			parse_str ( $db = strtr ( substr ( $dsn, $n ), [ ';' => '&', '+' => '%2B' ] ), $get );
 			
 			foreach ( $get AS $key => $item )
 			{
