@@ -41,13 +41,18 @@ class Lerma extends Core
 	
 	public int $hash;
 	
-	public function __construct( string $dsn = null, callable $callable = null )
+	public function __construct( /* string | array */ $dsn = null, callable $callable = null )
 	{
 		$this -> config = new Config( include $this -> default_config, '.' );
 		
 		if ( is_callable ( $callable ) )
 		{
 			$callable( $this -> config );
+		}
+		
+		if ( is_array ( $dsn ) )
+		{
+			$dsn = sprintf ( ...$dsn );
 		}
 		
 		$this -> parseDsn( $dsn ?? $this -> config -> get( 'dsn_default' ) );
