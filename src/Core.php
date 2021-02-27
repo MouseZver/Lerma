@@ -53,7 +53,7 @@ class Core
 		{
 			if ( $plaseholder == '?' )
 			{
-				$new[$key + $keys] = $execute[$key];
+				$new[$key + $keys] = $this -> matches[$key];
 			}
 			else
 			{
