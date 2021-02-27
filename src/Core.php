@@ -15,12 +15,12 @@ use Error;
 
 class Core
 {
-	protected function execute( array $items = null )/* : int | Lerma */
+	protected function binding( array $items )/* : int | Lerma */
 	{
-		if ( is_null ( $items ) )
+		/* if ( is_null ( $items ) )
 		{
 			throw new Error( $this -> config -> get( 'errMessage.prepare.items' ) );
-		}
+		} */
 		
 		$this -> InterfaceDriver -> binding( $items );
 		

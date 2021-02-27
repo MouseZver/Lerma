@@ -81,7 +81,7 @@ class Lerma extends Core
 				{
 					$this -> config -> set( "drivers.{$this -> driver}.{$key}", fn( &$a ) => $a = $item );
 				}
-				elseif ( !empty ( $key ) && empty ( $item ) )
+				else if ( ! empty ( $key ) && empty ( $item ) )
 				{
 					$this -> config -> set( "drivers.{$this -> driver}.db", fn( &$a ) => $a = $db );
 				}
@@ -110,16 +110,22 @@ class Lerma extends Core
 		$this -> InterfaceDriver = new $ext( ...$a );
 	}
 	
-	public function prepare( $sql, array $items = [] ): LermaStatement
+	private function verify_prepare_vars( string $sql ): void
+	{
+		// full :var1 :var_N and no replaceHolders ?
+		if ( strpbrk ( $sql, '?:' ) === false )
+		{
+			throw new Error( $this -> config -> get( 'errMessage.prepare.vars' ) );
+		}
+	}
+	
+	public function prepare( /* string | array */ $sql, array $items = null ): LermaStatement
 	{
 		$this -> InterfaceDriver -> close();
 		
 		$sql = $this -> replaceHolders( is_array ( $sql ) ? sprintf ( ...$sql ) : $sql );
 		
-		if ( strpbrk ( $sql, '?:' ) === false )
-		{
-			throw new Error( $this -> config -> get( 'errMessage.prepare.vars' ) );
-		}
+		$this -> verify_prepare_vars( $sql );
 		
 		try
 		{
@@ -127,9 +133,12 @@ class Lerma extends Core
 			
 			$this -> InterfaceDriver -> isError();
 			
-			reset ( $items );
-			
-			$this -> execute( is_array ( current ( $items ) ) ? $items : [ $items ] );
+			if ( ! is_null ( $items ) )
+			{
+				reset ( $items );
+				
+				$this -> binding( is_array ( current ( $items ) ) ? $items : [ $items ] );
+			}
 			
 			return new LermaStatement( $this, $this -> InterfaceDriver, $this -> config );
 		}
@@ -139,6 +148,13 @@ class Lerma extends Core
 			
 			throw $e;
 		}
+	}
+	
+	public function execute( array $items )/* : int | Lerma */
+	{
+		reset ( $items );
+		
+		return $this -> binding( is_array ( current ( $items ) ) ? $items : [ $items ] );
 	}
 	
 	public function query( $sql ): LermaStatement
