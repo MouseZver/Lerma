@@ -49,15 +49,15 @@ class Core
 	{
 		$new = [];
 		# [ '?', '?', ':id', '?' ]
-		foreach ( $this -> matches as $key => $plaseholder )
+		foreach ( $this -> matches as $key => $placeholders )
 		{
-			if ( $plaseholder == '?' )
+			if ( $placeholders == '?' )
 			{
 				$new[$key + $keys] = $this -> matches[$key];
 			}
 			else
 			{
-				$new[$key + $keys] = $execute[$plaseholder];
+				$new[$key + $keys] = $execute[$placeholders];
 			}
 		}
 		
