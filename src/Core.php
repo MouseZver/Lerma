@@ -48,12 +48,15 @@ class Core
 	public function executeHolders( array $execute, int $keys = 0 ): array
 	{
 		$new = [];
-		# [ '?', '?', ':id', '?' ]
+		
+		$id = 0;
+		
+		# [ ':test', '?', '?', ':id', '?' ]
 		foreach ( $this -> matches as $key => $placeholders )
 		{
 			if ( $placeholders == '?' )
 			{
-				$new[$key + $keys] = $this -> matches[$key];
+				$new[$key + $keys] = $execute[$id++];
 			}
 			else
 			{
