@@ -33,7 +33,7 @@ class Core
 	{
 		if ( strpos ( $sql, ':' ) !== false && $this -> config -> get( "ShemaActiveFun.replaceHolders.{$this -> driver}" ) )
 		{
-			preg_match_all ( '/(\?|:[a-zA-Z]{1,})/', $sql, $matches );
+			preg_match_all ( '/(\?|:[a-z]{1,})/i', $sql, $matches );
 			
 			$sql = strtr ( $sql, array_fill_keys ( $this -> matches = $matches[1], '?' ) );
 		}
@@ -60,7 +60,7 @@ class Core
 			}
 			else
 			{
-				$new[$key + $keys] = $execute[$placeholders];
+				$new[$key + $keys] = $execute[substr ( $placeholders, 1 )];
 			}
 		}
 		

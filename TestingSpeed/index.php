@@ -19,7 +19,7 @@ session_start ();
 
 require dirname ( __FILE__, 2 ) . '/vendor/autoload.php';
 
-if ( $_SESSION['speed'] ?? false )
+if ( ! empty ( $_SESSION['speed'] ) )
 {
 	require 'PDO.php';
 	
@@ -33,10 +33,9 @@ else
 {
 	require 'Lerma.php';
 	
-	$test = new TestingSpeed\Lerma( 'mysql:host=127.0.0.1;port=3306;dbname=git;charset=utf8;username=root', static function ( Config $config )
-	{
-		$config -> set( 'ShemaActiveFun.replaceHolders.mysql', fn( &$a ) => $a = true );
-	} );
+	$test = new TestingSpeed\Lerma( 'mysql:host=127.0.0.1;port=3306;dbname=git;charset=utf8;username=root', 
+		fn( Config $config ): void => $config -> set( 'ShemaActiveFun.replaceHolders.mysql', fn( &$a ) => $a = true
+	);
 	
 	$_SESSION['speed'] = 1;
 }

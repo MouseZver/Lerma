@@ -8,12 +8,14 @@
         "db",
 		"mysqli",
 		"sqlite3",
-		"Database"
+		"Database",
+		"PHP 7.4.0"
     ],
     "authors": [
         {
             "name": "MouseZver",
-            "email": "mouse-zver@xaker.ru"
+            "email": "mouse-zver@xaker.ru",
+			"profile": "https://php.ru/forum/members/mousezver.40235"
         }
     ],
 	"require": {

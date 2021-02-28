@@ -96,7 +96,7 @@ final class TestingMethods extends Lerma
 		
 		if ( ( Lerma :: MYSQL_FETCH_BIND | Lerma :: FETCH_COLUMN ) == $style )
 		{
-			return $this -> prepare( 'SELECT `name` FROM `lerma` WHERE :id', [ ':id' => 1 ] ) -> fetch( $style );
+			return $this -> prepare( 'SELECT `name` FROM `lerma` WHERE :id', [ 'id' => 1 ] ) -> fetch( $style );
 		}
 		
 		return $this -> prepare( 'SELECT * FROM `lerma` WHERE ?', [ 1 ] ) -> fetch( $style );

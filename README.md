@@ -55,7 +55,7 @@ $lrm = new Nouvu\Database\Lerma( 'mysql', static function ( Nouvu\Config\Config 
 	$config -> set( 'ShemaActiveFun.replaceHolders.mysql', fn( &$a ) => $a = true ); // default true
 } );
 
-$stmt = $lrm -> prepare( [ 'SELECT * FROM `%s` WHERE `num` = :num', 'lerma' ], [ ':num' => 111 ] );
+$stmt = $lrm -> prepare( [ 'SELECT * FROM `%s` WHERE `num` = :num', 'lerma' ], [ 'num' => 111 ] );
 ```
 
 #### Fatal Error: Session ended by calling another
