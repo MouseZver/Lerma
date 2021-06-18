@@ -6,7 +6,7 @@ declare ( strict_types = 1 );
 	@ Author: MouseZver
 	@ Email: mouse-zver@xaker.ru
 	@ url-source: http://github.com/MouseZver/Lerma
-	@ php-version 7.4
+	@ php-version 8.0
 */
 
 namespace Nouvu\Database;
@@ -15,27 +15,10 @@ use Error;
 
 class ComponentFetch
 {
-	protected array $_fetch = [
-		Lerma :: FETCH_NUM => [ 'fetch_num', 'all' => 'fetchall_num' ],
-		Lerma :: FETCH_ASSOC => [ 'fetch_assoc', 'all' => 'fetchall_assoc' ],
-		Lerma :: FETCH_OBJ => [ 'fetch_obj', 'all' => 'fetchall_obj' ],
-		Lerma :: MYSQL_FETCH_FIELD => [ 'fetch_field', 'all' => 'fetchall_field' ],
-		Lerma :: MYSQL_FETCH_BIND => [ 'fetch_bind' ],
-		Lerma :: MYSQL_FETCH_BIND | Lerma :: FETCH_COLUMN => [ 'fetch_bind' ],
-		Lerma :: FETCH_COLUMN => [ 'fetch_column', 'all' => 'fetchall_obj' ],
-		Lerma :: FETCH_KEY_PAIR => [ 'fetch_key_pair', 'all' => 'fetchall_key_pair' ],
-		Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_NAMED => [ 'all' => 'fetchall_key_pair' ],
-		Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_FUNC => [ 'all' => 'fetchall_key_pair' ],
-		Lerma :: FETCH_FUNC => [ 'fetch_func', 'all' => 'fetchall_obj' ],
-		Lerma :: FETCH_UNIQUE => [ 'all' => 'fetchall_unique' ],
-		Lerma :: FETCH_GROUP => [ 'all' => 'fetchall_group' ],
-		Lerma :: FETCH_GROUP | Lerma :: FETCH_COLUMN => [ 'all' => 'fetchall_group_column' ],
-	];
-	
 	/*
 		-
 	*/
-	protected function fetchall_num( int $fetch_style, $fetch_argument ): array
+	protected function fetchall_num(): array
 	{
 		return $this -> InterfaceDriver -> fetchAll( Lerma :: FETCH_NUM );
 	}
@@ -43,7 +26,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_assoc( int $fetch_style, $fetch_argument ): array
+	protected function fetchall_assoc(): array
 	{
 		return $this -> InterfaceDriver -> fetchAll( Lerma :: FETCH_ASSOC );
 	}
@@ -51,7 +34,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_field( int $fetch_style, $fetch_argument ): array
+	protected function fetchall_field( int $fetch_style, string | null $fetch_argument ): array
 	{
 		$all = [];
 		
@@ -66,7 +49,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_obj( int $fetch_style, $fetch_argument ): array
+	protected function fetchall_obj( int $fetch_style, callable | null $fetch_argument ): array
 	{
 		$all = [];
 		
@@ -81,11 +64,11 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_key_pair( int $fetch_style, callable $fetch_argument = null ): array
+	protected function fetchall_key_pair( int $fetch_style, callable | null $fetch_argument ): array
 	{
 		if ( $this -> InterfaceDriver -> columnCount() != 2 )
 		{
-			throw new Error( $this -> config -> get( 'errMessage.statement.columnCount.only.2' ) );
+			throw new RequestException( code: 211 );
 		}
 		
 		$all = [];
@@ -122,11 +105,11 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_unique( int $fetch_style, string $fetch_argument = null  ): array
+	protected function fetchall_unique(): array
 	{
 		if ( $this -> InterfaceDriver -> columnCount() < 2 )
 		{
-			throw new Error( $this -> config -> get( 'errMessage.statement.columnCount.min' ) );
+			throw new RequestException( code: 212 );
 		}
 		
 		$all = [];
@@ -142,11 +125,11 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_group( int $fetch_style, $fetch_argument ): array
+	protected function fetchall_group(): array
 	{
 		if ( $this -> InterfaceDriver -> columnCount() < 2 )
 		{
-			throw new Error( $this -> config -> get( 'errMessage.statement.columnCount.min' ) );
+			throw new RequestException( code: 212 );
 		}
 		
 		$all = [];
@@ -162,11 +145,11 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetchall_group_column( int $fetch_style, $fetch_argument ): array
+	protected function fetchall_group_column(): array
 	{
 		if ( $this -> InterfaceDriver -> columnCount() != 2 )
 		{
-			throw new Error( $this -> config -> get( 'errMessage.statement.columnCount.only.2' ) );
+			throw new RequestException( code: 211 );
 		}
 		
 		$all = [];
@@ -182,7 +165,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_num( int $fetch_style, $fetch_argument )
+	protected function fetch_num()
 	{
 		return $this -> InterfaceDriver -> fetch( Lerma :: FETCH_NUM );
 	}
@@ -190,7 +173,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_assoc( int $fetch_style, $fetch_argument )
+	protected function fetch_assoc()
 	{
 		return $this -> InterfaceDriver -> fetch( Lerma :: FETCH_ASSOC );
 	}
@@ -198,7 +181,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_field( int $fetch_style, $fetch_argument )
+	protected function fetch_field( int $fetch_style, string | null $fetch_argument )
 	{
 		$info = $this -> InterfaceDriver -> fetch( Lerma :: MYSQL_FETCH_FIELD );
 		
@@ -213,7 +196,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_obj( int $fetch_style, $fetch_argument )
+	protected function fetch_obj()
 	{
 		return $this -> InterfaceDriver -> fetch( Lerma :: FETCH_OBJ );
 	}
@@ -221,7 +204,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_bind( int $fetch_style, $fetch_argument )
+	protected function fetch_bind( int $fetch_style )
 	{
 		if ( ! $this -> bind() -> fetch( Lerma :: MYSQL_FETCH_BIND ) )
 		{
@@ -232,7 +215,7 @@ class ComponentFetch
 		{
 			if ( $this -> InterfaceDriver -> columnCount() != 1 )
 			{
-				throw new Error( $this -> config -> get( 'errMessage.statement.columnCount.only.1' ) );
+				throw new RequestException( code: 210 );
 			}
 
 			return $this -> bind_result[0];
@@ -244,7 +227,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_column( int $fetch_style, $fetch_argument )
+	protected function fetch_column()
 	{
 		return $this -> InterfaceDriver -> fetch( Lerma :: FETCH_NUM )[0] ?? null;
 	}
@@ -252,7 +235,7 @@ class ComponentFetch
 	/*
 		-
 	*/
-	protected function fetch_key_pair( int $fetch_style, $fetch_argument ): ?array # column1 => column2
+	protected function fetch_key_pair(): array | null // column1 => column2
 	{
 		if ( is_null ( $items = $this -> InterfaceDriver -> fetch( Lerma :: FETCH_NUM ) ) )
 		{

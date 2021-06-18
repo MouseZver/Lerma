@@ -9,19 +9,18 @@
 		"mysqli",
 		"sqlite3",
 		"Database",
-		"PHP 7.4.0"
+		"PHP 8.0"
     ],
     "authors": [
         {
             "name": "MouseZver",
-            "email": "mouse-zver@xaker.ru",
-			"profile": "https://php.ru/forum/members/mousezver.40235"
+            "email": "mouse-zver@xaker.ru"
         }
     ],
 	"require": {
-		"php": ">=7.4",
-		"nouvu/lermaext": "^v2.0",
-		"nouvu/config": "^v3.1"
+		"php": ">=8.0",
+		"nouvu/lermaext": "^v2.3",
+		"nouvu/config": "^v3.1.2"
 	},
 	"autoload": {
 		"psr-4": {

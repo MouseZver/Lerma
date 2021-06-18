@@ -6,7 +6,7 @@ declare ( strict_types = 1 );
 	@ Author: MouseZver
 	@ Email: mouse-zver@xaker.ru
 	@ url-source: http://github.com/MouseZver/Lerma
-	@ php-version 7.4
+	@ php-version 8.0
 */
 
 namespace Nouvu\Database;
@@ -14,26 +14,14 @@ namespace Nouvu\Database;
 use Error;
 use Nouvu\Config\Config;
 
-final class LermaStatement extends ComponentFetch
+final class LermaStatement extends ComponentFetch implements InterfaceRequest
 {
-	protected Config $config;
-	
-	protected InterfaceDriver $InterfaceDriver;
-	
 	protected array $bind_result = [];
-	
-	private Lerma $lerma;
 	
 	private int $hash;
 	
-	public function __construct( Lerma $lerma, InterfaceDriver $InterfaceDriver, Config $config )
+	public function __construct ( private InterfaceLerma $lerma, protected InterfaceDriver $InterfaceDriver, protected Config $config )
 	{
-		$this -> InterfaceDriver = $InterfaceDriver;
-		
-		$this -> config = $config;
-		
-		$this -> lerma = $lerma;
-		
 		$this -> hash = $this -> lerma -> hash = mt_rand ();
 	}
 	
@@ -41,7 +29,7 @@ final class LermaStatement extends ComponentFetch
 	{
 		if ( $this -> hash != $this -> lerma -> hash )
 		{
-			throw new Error( $this -> config -> get( 'errMessage.statement.hash' ) );
+			throw new RequestException( code: 200 );
 		}
 	}
 	
@@ -51,7 +39,7 @@ final class LermaStatement extends ComponentFetch
 		- fetch_style - Идентификатор выбираемого стиля. Default Lerma :: FETCH_NUM
 		- fetch_argument - атрибут для совершения действий над данными
 	*/
-	public function fetch( int $fetch_style = Lerma :: FETCH_NUM, $fetch_argument = null )
+	public function fetch( int $fetch_style = Lerma :: FETCH_NUM, callable | string $fetch_argument = null ): mixed
 	{
 		$this -> hash();
 		
@@ -60,7 +48,7 @@ final class LermaStatement extends ComponentFetch
 			return $this -> {$this -> _fetch[$fetch_style][0]}( $fetch_style, $fetch_argument );
 		}
 		
-		throw new Error( $this -> config -> get( 'errMessage.statement.keyName' ) );
+		throw new RequestException( code: 201 );
 	}
 
 	/*
@@ -69,7 +57,7 @@ final class LermaStatement extends ComponentFetch
 		- fetch_style - Идентификатор выбираемого стиля. Default Lerma :: FETCH_NUM
 		- fetch_argument - атрибут для совершения действий над данными
 	*/
-	public function fetchAll( int $fetch_style = Lerma :: FETCH_NUM, $fetch_argument = null )
+	public function fetchAll( int $fetch_style = Lerma :: FETCH_NUM, callable | string $fetch_argument = null ): mixed
 	{
 		$this -> hash();
 		
@@ -78,7 +66,7 @@ final class LermaStatement extends ComponentFetch
 			return $this -> {$this -> _fetch[$fetch_style]['all']}( $fetch_style, $fetch_argument );
 		}
 		
-		throw new Error( $this -> config -> get( 'errMessage.statement.keyName' ) );
+		throw new RequestException( code: 201 );
 	}
 	
 	/*
@@ -108,7 +96,7 @@ final class LermaStatement extends ComponentFetch
 	{
 		$this -> hash();
 		
-		if ( $this -> bind_result == [] )
+		if ( empty ( $this -> bind_result ) )
 		{
 			$i = 0;
 			

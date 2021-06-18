@@ -6,7 +6,7 @@ declare ( strict_types = 1 );
 	@ Author: MouseZver
 	@ Email: mouse-zver@xaker.ru
 	@ url-source: http://github.com/MouseZver/Lerma
-	@ php-version 7.4
+	@ php-version 8.0
 */
 
 namespace Nouvu\Database;
@@ -14,22 +14,9 @@ namespace Nouvu\Database;
 use Error;
 use Nouvu\Config\Config;
 
-class Lerma extends Core
+final class Lerma extends Core implements InterfaceLerma
 {
-	public const
-		FETCH_NUM			= 1,
-		FETCH_ASSOC			= 2,
-		FETCH_OBJ			= 4,
-		MYSQL_FETCH_BIND	= 663,
-		FETCH_COLUMN		= 265,
-		FETCH_KEY_PAIR		= 307,
-		FETCH_NAMED			= 173,
-		FETCH_UNIQUE		= 333,
-		FETCH_GROUP			= 428,
-		FETCH_FUNC			= 586,
-		MYSQL_FETCH_FIELD	= 343;
-	
-	private string $default_config = 'def.conf.php';
+	protected string $default_config = 'config/default.php';
 	
 	protected Config $config;
 	
@@ -37,11 +24,11 @@ class Lerma extends Core
 	
 	protected string $driver;
 	
-	private bool $inTransaction = false;
+	protected bool $inTransaction = false;
 	
 	public int $hash;
 	
-	public function __construct( /* string | array */ $dsn = null, callable $callable = null )
+	public function __construct ( string | array $dsn = null, callable $callable = null )
 	{
 		$this -> config = new Config( include $this -> default_config, '.' );
 		
@@ -57,7 +44,7 @@ class Lerma extends Core
 		
 		$this -> parseDsn( $dsn ?? $this -> config -> get( 'dsn_default' ) );
 		
-		$this -> connect( $this, $this -> config, $this -> driver );
+		$this -> connect();
 		
 		if ( $this -> config -> get( 'StartingDriver' ) )
 		{
@@ -65,67 +52,17 @@ class Lerma extends Core
 		}
 	}
 	
-	private function parseDsn( string $dsn ): void
-	{
-		if ( ( $n = strpos ( $dsn, ':' ) ) !== false )
-		{
-			$this -> driver = substr ( $dsn, 0, $n++ );
-			
-			$this -> inDriverName();
-			
-			parse_str ( $db = strtr ( substr ( $dsn, $n ), [ ';' => '&', '+' => '%2B' ] ), $get );
-			
-			foreach ( $get AS $key => $item )
-			{
-				if ( ! is_null ( $this -> config -> get( "drivers.{$this -> driver}.{$key}" ) ) )
-				{
-					$this -> config -> set( "drivers.{$this -> driver}.{$key}", fn( &$a ) => $a = $item );
-				}
-				else if ( ! empty ( $key ) && empty ( $item ) )
-				{
-					$this -> config -> set( "drivers.{$this -> driver}.db", fn( &$a ) => $a = $db );
-				}
-			}
-		}
-		else
-		{
-			$this -> driver = $dsn;
-			
-			$this -> inDriverName();
-		}
-	}
-	
-	private function inDriverName(): void
-	{
-		if ( is_null ( $this -> config -> get( "drivers.{$this -> driver}" ) ) )
-		{
-			throw new Error( sprintf ( $this -> config -> get( 'errMessage.driver' ), $this -> driver ) );
-		}
-	}
-	
-	private function connect( ...$a ): void
-	{
-		$ext = $this -> config -> get( "drivers.{$this -> driver}.namespace" );
-		
-		$this -> InterfaceDriver = new $ext( ...$a );
-	}
-	
-	private function verify_prepare_vars( string $sql ): void
-	{
-		// full :var1 :var_N and no replaceHolders ?
-		if ( strpbrk ( $sql, '?:' ) === false )
-		{
-			throw new Error( $this -> config -> get( 'errMessage.prepare.vars' ) );
-		}
-	}
-	
-	public function prepare( /* string | array */ $sql, array $items = null ): LermaStatement
+	public function prepare( string | array $sql, array $items = null ): LermaStatement
 	{
 		$this -> InterfaceDriver -> close();
 		
 		$sql = $this -> replaceHolders( is_array ( $sql ) ? sprintf ( ...$sql ) : $sql );
 		
-		$this -> verify_prepare_vars( $sql );
+		// full :var1 :var_N and no replaceHolders ?
+		if ( strpbrk ( $sql, '?:' ) === false )
+		{
+			throw new RequestException( code: 111 );
+		}
 		
 		try
 		{
@@ -150,11 +87,13 @@ class Lerma extends Core
 		}
 	}
 	
-	public function execute( array $items )/* : int | Lerma */
+	public function execute( array $items ): int | InterfaceLerma
 	{
 		reset ( $items );
 		
-		return $this -> binding( is_array ( current ( $items ) ) ? $items : [ $items ] );
+		return $this -> binding( 
+			is_array ( current ( $items ) ) ? $items : [ $items ] 
+		);
 	}
 	
 	public function query( $sql ): LermaStatement
@@ -202,14 +141,13 @@ class Lerma extends Core
 		return false;
 	}
 	
-	public static function getAvailableDrivers(): array
-	{
-		return array_keys ( ( include $this -> default_config )['drivers'] );
-	}
-	
 	public function InsertID(): int
 	{
 		return $this -> InterfaceDriver -> InsertID();
 	}
+	
+	public static function getAvailableDrivers(): array
+	{
+		return array_keys ( ( include $this -> default_config )['drivers'] );
+	}
 }
-# END

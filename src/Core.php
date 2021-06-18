@@ -6,7 +6,7 @@ declare ( strict_types = 1 );
 	@ Author: MouseZver
 	@ Email: mouse-zver@xaker.ru
 	@ url-source: http://github.com/MouseZver/Lerma
-	@ php-version 7.4
+	@ php-version 8.0
 */
 
 namespace Nouvu\Database;
@@ -15,13 +15,53 @@ use Error;
 
 class Core
 {
-	protected function binding( array $items )/* : int | Lerma */
+	protected function parseDsn( string $dsn ): void
 	{
-		/* if ( is_null ( $items ) )
+		if ( ( $n = strpos ( $dsn, ':' ) ) !== false )
 		{
-			throw new Error( $this -> config -> get( 'errMessage.prepare.items' ) );
-		} */
+			$this -> driver = substr ( $dsn, 0, $n++ );
+			
+			$this -> inDriverName();
+			
+			parse_str ( $db = strtr ( substr ( $dsn, $n ), [ ';' => '&', '+' => '%2B' ] ), $get );
+			
+			foreach ( $get AS $key => $item )
+			{
+				if ( ! is_null ( $this -> config -> get( "drivers.{$this -> driver}.{$key}" ) ) )
+				{
+					$this -> config -> set( "drivers.{$this -> driver}.{$key}", fn( &$a ) => $a = $item );
+				}
+				else if ( ! empty ( $key ) && empty ( $item ) )
+				{
+					$this -> config -> set( "drivers.{$this -> driver}.db", fn( &$a ) => $a = $db );
+				}
+			}
+		}
+		else
+		{
+			$this -> driver = $dsn;
+			
+			$this -> inDriverName();
+		}
+	}
+	
+	protected function inDriverName(): void
+	{
+		if ( is_null ( $this -> config -> get( "drivers.{$this -> driver}" ) ) )
+		{
+			throw new RequestException( $this -> driver, 100 );
+		}
+	}
+	
+	protected function connect(): void
+	{
+		$ext = $this -> config -> get( "drivers.{$this -> driver}.namespace" );
 		
+		$this -> InterfaceDriver = new $ext( $this, $this -> config, $this -> driver );
+	}
+	
+	protected function binding( array $items ): int | Lerma
+	{
 		$this -> InterfaceDriver -> binding( $items );
 		
 		$this -> InterfaceDriver -> isError();
@@ -51,7 +91,7 @@ class Core
 		
 		$id = 0;
 		
-		# [ ':test', '?', '?', ':id', '?' ]
+		// [ ':test', '?', '?', ':id', '?' ]
 		foreach ( $this -> matches as $key => $placeholders )
 		{
 			if ( $placeholders == '?' )
@@ -64,7 +104,7 @@ class Core
 			}
 		}
 		
-		if ( ! $this -> matches && $keys && $execute )
+		if ( empty ( $this -> matches ) && ! empty ( $keys ) && ! empty ( $execute ) )
 		{
 			return array_combine ( range ( $keys, array_key_last ( $execute ) + $keys ), $execute );
 		}
