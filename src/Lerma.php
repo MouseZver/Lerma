@@ -79,7 +79,7 @@ final class Lerma extends Core implements InterfaceLerma
 			
 			return new LermaStatement( $this, $this -> InterfaceDriver, $this -> config );
 		}
-		catch ( Error $e )
+		catch ( RequestException $e )
 		{
 			$this -> rollBack();
 			

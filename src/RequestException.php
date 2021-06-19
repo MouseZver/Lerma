@@ -13,7 +13,7 @@ namespace Nouvu\Database;
 
 class RequestException extends \Exception
 {
-	protected array $code = [
+	private array $codes = [
 		100 => 'Error in driver selection: %s',
 		110 => 'Argument 2 is empty',
 		111 => 'Missing pseudo-variables in the request',
@@ -28,15 +28,15 @@ class RequestException extends \Exception
 	
 	public function __construct ( array | string $messages = null, int $code = 0 )
 	{
-		if ( isset ( $this -> code[$code] ) )
+		if ( isset ( $this -> codes[$code] ) )
 		{
-			$messages = call_user_func_array ( 'sprintf', array_merge ( [ $this -> code[$code] ], ( is_array ( $messages ) ? $messages : [ $messages ] ) ) );
+			$messages = call_user_func_array ( 'sprintf', array_merge ( [ $this -> codes[$code] ], ( is_array ( $messages ) ? $messages : [ $messages ] ) ) );
 		}
-		else if ()
+		else if ( is_array ( $messages ) )
 		{
 			$messages = implode ( ',', $messages );
 		}
 		
-		parent :: __construct ( $messages );
+		parent :: __construct ( ( string ) $messages );
 	}
 }

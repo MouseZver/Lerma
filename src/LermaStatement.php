@@ -13,8 +13,9 @@ namespace Nouvu\Database;
 
 use Error;
 use Nouvu\Config\Config;
+use Nouvu\Database\InterfaceRequest AS Request;
 
-final class LermaStatement extends ComponentFetch implements InterfaceRequest
+final class LermaStatement extends ComponentFetch implements Request
 {
 	protected array $bind_result = [];
 	
@@ -43,9 +44,9 @@ final class LermaStatement extends ComponentFetch implements InterfaceRequest
 	{
 		$this -> hash();
 		
-		if ( $this -> _fetch[$fetch_style][0] ?? null )
+		if ( Request :: FETCH[$fetch_style][0] ?? null )
 		{
-			return $this -> {$this -> _fetch[$fetch_style][0]}( $fetch_style, $fetch_argument );
+			return $this -> {Request :: FETCH[$fetch_style][0]}( $fetch_style, $fetch_argument );
 		}
 		
 		throw new RequestException( code: 201 );
@@ -61,9 +62,9 @@ final class LermaStatement extends ComponentFetch implements InterfaceRequest
 	{
 		$this -> hash();
 		
-		if ( $this -> _fetch[$fetch_style]['all'] ?? null )
+		if ( Request :: FETCH[$fetch_style]['all'] ?? null )
 		{
-			return $this -> {$this -> _fetch[$fetch_style]['all']}( $fetch_style, $fetch_argument );
+			return $this -> {Request :: FETCH[$fetch_style]['all']}( $fetch_style, $fetch_argument );
 		}
 		
 		throw new RequestException( code: 201 );

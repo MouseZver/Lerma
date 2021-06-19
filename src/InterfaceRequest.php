@@ -13,7 +13,7 @@ namespace Nouvu\Database;
 
 interface InterfaceRequest
 {
-	protected array $_fetch = [
+	public const FETCH = [
 		Lerma :: FETCH_NUM => [ 'fetch_num', 'all' => 'fetchall_num' ],
 		Lerma :: FETCH_ASSOC => [ 'fetch_assoc', 'all' => 'fetchall_assoc' ],
 		Lerma :: FETCH_OBJ => [ 'fetch_obj', 'all' => 'fetchall_obj' ],

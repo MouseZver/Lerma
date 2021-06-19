@@ -28,7 +28,7 @@ interface InterfaceLerma
 	
 	public function prepare( string | array $sql, array $items ): LermaStatement;
 	
-	public function execute( array $items ): int | Lerma;
+	public function execute( array $items ): int | InterfaceLerma;
 	
 	public function query( $sql ): LermaStatement;
 	
@@ -38,7 +38,7 @@ interface InterfaceLerma
 	
 	public function commit( ...$commit ): bool;
 	
-	public function InsertID(): int
+	public function InsertID(): int;
 	
 	public static function getAvailableDrivers(): array;
 }
