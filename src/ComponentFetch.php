@@ -250,7 +250,7 @@ class ComponentFetch
 	*/
 	protected function fetch_func( int $fetch_style, callable $fetch_argument )
 	{
-		if ( $items = $this -> InterfaceDriver -> fetch( Lerma :: FETCH_NUM ) )
+		if ( $items = $this -> InterfaceDriver -> fetch( Lerma :: FETCH_ASSOC ) )
 		{
 			return $fetch_argument( ...$items );
 		}
