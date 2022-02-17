@@ -1110,7 +1110,7 @@ Array
 ```php
 $stmt = $lerma -> query( [ 'SELECT * FROM `%s`', $this -> table ] );
 
-print_r ( $stmt -> fetchAll( Lerma :: FETCH_UNIQUE ) );
+print_r ( $stmt -> fetchAll( Lerma :: FETCH_UNIQUE, 'group' ) );
 ```
 ```php
 Array
