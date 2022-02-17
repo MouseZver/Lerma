@@ -2,72 +2,106 @@
 
 declare ( strict_types = 1 );
 
-/*
-	@ Author: MouseZver
-	@ Email: mouse-zver@xaker.ru
-	@ url-source: http://github.com/MouseZver/Lerma
-	@ php-version 8.0
-*/
-
 namespace Nouvu\Database;
 
-use Error;
-use Nouvu\Config\Config;
-use Nouvu\Database\InterfaceRequest AS Request;
+use Nouvu\Database\Exception\LermaStatementException;
 
-final class LermaStatement extends ComponentFetch implements Request
+use function Nouvu\Database\Helpers\{ connect, config, getExtension };
+
+final class LermaStatement extends ComponentMode implements \IteratorAggregate
 {
 	protected array $bind_result = [];
 	
 	private int $hash;
 	
-	public function __construct ( private InterfaceLerma $lerma, protected InterfaceDriver $InterfaceDriver, protected Config $config )
+	public function __construct ( protected LermaInterface $lerma )
 	{
-		$this -> hash = $this -> lerma -> hash = mt_rand ();
+		$this -> hash = $lerma -> hash = mt_rand ();
 	}
 	
-	private function hash(): void
+	private function hashVerify(): void
 	{
 		if ( $this -> hash != $this -> lerma -> hash )
 		{
-			throw new RequestException( code: 200 );
+			throw new LermaStatementException( 'Previous API methods usage denied after new request' );
 		}
 	}
 	
 	/*
-		- Контроль доступа к стилям
-		- Стиль возвращаемого результата с одной строки
-		- fetch_style - Идентификатор выбираемого стиля. Default Lerma :: FETCH_NUM
-		- fetch_argument - атрибут для совершения действий над данными
+		- Контроль доступа к режиму вывода
+		- Режим возвращаемого результата с одной строки
+		- mode - Идентификатор возвращаемого стиля. Default Lerma :: FETCH_NUM
+		- argument - атрибут для совершения действий над данными
 	*/
-	public function fetch( int $fetch_style = Lerma :: FETCH_NUM, callable | string $fetch_argument = null ): mixed
+	public function fetch( int $mode = null, \Closure | string | null $argument = null ): mixed
 	{
-		$this -> hash();
+		$mode ??= config( 'mode' );
 		
-		if ( Request :: FETCH[$fetch_style][0] ?? null )
+		$this -> hashVerify();
+		
+		if ( isset ( Lerma :: MODE[ $mode ][0] ) )
 		{
-			return $this -> {Request :: FETCH[$fetch_style][0]}( $fetch_style, $fetch_argument );
+			$fetch = $this -> {Lerma :: MODE[ $mode ][0]}( $mode, $argument );
+			
+			if ( $fetch instanceOf \Generator )
+			{
+				$result = $fetch -> current();
+				
+				$fetch -> next();
+				
+				return $result;
+			}
+			else 
+			{
+				return $fetch;
+			}
 		}
 		
-		throw new RequestException( code: 201 );
+		throw new LermaStatementException( 'Selected mode for the result was not found' );
 	}
 
 	/*
-		- Контроль доступа к стилям
-		- Стиль возвращаемого результата со всех строк
-		- fetch_style - Идентификатор выбираемого стиля. Default Lerma :: FETCH_NUM
-		- fetch_argument - атрибут для совершения действий над данными
+		- Контроль доступа к режиму вывода
+		- Режим возвращаемого результата со всех строк
+		- mode - Идентификатор возвращаемого стиля. Default Lerma :: FETCH_NUM
+		- argument - атрибут для совершения действий над данными
 	*/
-	public function fetchAll( int $fetch_style = Lerma :: FETCH_NUM, callable | string $fetch_argument = null ): mixed
+	public function fetchAll( int $mode = null, \Closure | string | null $argument = null ): iterable
 	{
-		$this -> hash();
+		$mode ??= config( 'mode' );
 		
-		if ( Request :: FETCH[$fetch_style]['all'] ?? null )
+		$this -> hashVerify();
+		
+		if ( isset ( Lerma :: MODE[ $mode ]['all'] ) )
 		{
-			return $this -> {Request :: FETCH[$fetch_style]['all']}( $fetch_style, $fetch_argument );
+			$fetch = $this -> {Lerma :: MODE[ $mode ]['all']}( $mode, $argument );
+			
+			if ( $fetch instanceOf \Generator )
+			{
+				return iterator_to_array ( $fetch );
+			}
+			else 
+			{
+				return $fetch;
+			}
 		}
 		
-		throw new RequestException( code: 201 );
+		throw new LermaStatementException( 'Selected mode for the result was not found' );
+	}
+	
+	/*
+		- Использование напрямую интератора, от самого драйвера. Только MySQLi
+	*/
+	public function getIterator(): \Traversable
+	{
+		$this -> hashVerify();
+		
+		if ( DriverEnum :: MySQLi -> value == getExtension() )
+		{
+			return connect( $this -> lerma ) -> result();
+		}
+		
+		throw new LermaStatementException( 'Only MySQLi can use iteration' );
 	}
 	
 	/*
@@ -75,9 +109,9 @@ final class LermaStatement extends ComponentFetch implements Request
 	*/
 	public function rowCount(): int
 	{
-		$this -> hash();
+		$this -> hashVerify();
 		
-		return $this -> InterfaceDriver -> rowCount();
+		return connect( $this -> lerma ) -> rowCount();
 	}
 	
 	/*
@@ -85,30 +119,30 @@ final class LermaStatement extends ComponentFetch implements Request
 	*/
 	public function columnCount(): int
 	{
-		$this -> hash();
+		$this -> hashVerify();
 		
-		return $this -> InterfaceDriver -> columnCount();
+		return connect( $this -> lerma ) -> columnCount();
 	}
 	
 	/*
 		- Создание переменных подготовленного запроса для данных с астрала
 	*/
-	protected function bind(): InterfaceDriver
+	protected function bind(): ModuleInterface
 	{
-		$this -> hash();
+		$this -> hashVerify();
 		
 		if ( empty ( $this -> bind_result ) )
 		{
 			$i = 0;
 			
-			while ( ( $i++ ) < $this -> InterfaceDriver -> columnCount() )
+			while ( ( $i++ ) < $this -> columnCount() )
 			{
 				$this -> bind_result[] = &${ 'result_' . $i };
 			}
 			
-			$this -> InterfaceDriver -> bindResult( $this -> bind_result );
+			connect( $this -> lerma ) -> bindResult( $this -> bind_result );
 		}
 		
-		return $this -> InterfaceDriver;
+		return connect( $this -> lerma );
 	}
 }
