@@ -3,7 +3,7 @@
 use Nouvu\Database\Lerma;
 use Nouvu\Database\Exception\LermaException;
 
-use function Nouvu\Database\Helpers\{ debug, connect };
+use function Nouvu\Database\Helpers\{ debug };
 
 require dirname ( __DIR__, 2 ) . '/init.php';
 
@@ -46,38 +46,3 @@ foreach ( Lerma :: MODE AS $constId => $listActions )
 		echo str_repeat ( PHP_EOL, 4 );
 	}
 }
-
-exit;
-
-$connect = connect( $lerma );// -> get();
-
-$connect -> prepare( 'SELECT * FROM `github_test` where ?' );
-
-$connect -> binding( [ [ 1 ] ] );
-
-$res = [ &$a, &$b, &$c, &$d, &$e ];
-
-$connect -> bindResult( $res );
-
-/*foreach ( $connect -> fetch( Lerma :: MYSQL_FETCH_BIND ) AS $bool )
-{
-	var_dump ( $res );
-	
-	var_dump ( $bool );
-}*/
-
-
-
-while ( ( $data = $connect -> fetch( Lerma :: MYSQL_FETCH_BIND ) ) -> current() )
-{
-	var_dump ( $res );
-}
-
-
-//$lerma -> prepare( 'SELECT * FROM `github_test` where ?', [ 1 ] );
-
-
-
-
-
-//echo json_encode ( debug(), 480 );
