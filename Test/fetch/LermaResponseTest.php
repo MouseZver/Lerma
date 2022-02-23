@@ -37,7 +37,7 @@ class LermaResponseTest
 		return $this -> result( statement: $stmt, mode: $mode );
 	}
 	
-	public function fetchall_num( int $mode ): iterable
+	public function fetch_num_all( int $mode ): iterable
 	{
 		return $this -> lerma -> query( [ 'SELECT * FROM `%s`', $this -> table ] ) -> fetchAll( $mode );
 	}
@@ -49,7 +49,7 @@ class LermaResponseTest
 		return $this -> result( statement: $stmt, mode: $mode );
 	}
 	
-	public function fetchall_assoc( int $mode ): iterable
+	public function fetch_assoc_all( int $mode ): iterable
 	{
 		return $this -> lerma -> query( [ 'SELECT * FROM `%s`', $this -> table ] ) -> fetchAll( $mode );
 	}
@@ -61,7 +61,7 @@ class LermaResponseTest
 		return $this -> result( statement: $stmt, mode: $mode );
 	}
 	
-	public function fetchall_obj( int $mode ): iterable
+	public function fetch_obj_all( int $mode ): iterable
 	{
 		if ( Lerma :: FETCH_COLUMN == $mode )
 		{
@@ -103,7 +103,7 @@ class LermaResponseTest
 		return $this -> result( statement: $stmt, mode: $mode );
 	}
 	
-	public function fetchall_key_pair( int $mode ): iterable
+	public function fetch_key_pair_all( int $mode ): iterable
 	{
 		$lrm = $this -> lerma -> query( [ 'SELECT `name`, `text` FROM `%s`', $this -> table ] );
 		
@@ -118,17 +118,17 @@ class LermaResponseTest
 		return $lrm -> fetchAll( $mode );
 	}
 	
-	public function fetchall_unique( int $mode ): iterable
+	public function fetch_unique_all( int $mode ): iterable
 	{
 		return $this -> lerma -> query( [ 'SELECT * FROM `%s`', $this -> table ] ) -> fetchAll( $mode, 'group' );
 	}
 	
-	public function fetchall_group( int $mode ): iterable
+	public function fetch_group_all( int $mode ): iterable
 	{
 		return $this -> lerma -> query( [ 'SELECT * FROM `%s`', $this -> table ] ) -> fetchAll( $mode, 'group' );
 	}
 	
-	public function fetchall_group_column( int $mode ): iterable
+	public function fetch_group_column_all( int $mode ): iterable
 	{
 		return $this -> lerma -> query( [ 'SELECT `group`, `name` FROM `%s`', $this -> table ] ) -> fetchAll( $mode );
 	}
@@ -140,7 +140,7 @@ class LermaResponseTest
 		return $this -> result( statement: $stmt, mode: $mode );
 	}
 	
-	public function fetchall_field( int $mode ): iterable
+	public function fetch_field_all( int $mode ): iterable
 	{
 		return $this -> lerma -> query( [ 'SELECT * FROM `%s`', $this -> table ] ) -> fetchAll( $mode );
 	}
