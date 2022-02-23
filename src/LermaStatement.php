@@ -6,7 +6,7 @@ namespace Nouvu\Database;
 
 use Nouvu\Database\Exception\LermaStatementException;
 
-use function Nouvu\Database\Helpers\{ connect, config, getExtension };
+use function Nouvu\Database\Helpers\{ config, getExtension };
 
 final class LermaStatement extends ComponentMode implements \IteratorAggregate
 {
@@ -96,9 +96,9 @@ final class LermaStatement extends ComponentMode implements \IteratorAggregate
 	{
 		$this -> hashVerify();
 		
-		if ( DriverEnum :: MySQLi -> value == getExtension() )
+		if ( DriverEnum :: MySQLi -> value == getExtension( $this -> lerma ) )
 		{
-			return connect( $this -> lerma ) -> result();
+			return $this -> lerma -> connect() -> result();
 		}
 		
 		throw new LermaStatementException( 'Only MySQLi can use iteration' );
@@ -111,7 +111,7 @@ final class LermaStatement extends ComponentMode implements \IteratorAggregate
 	{
 		$this -> hashVerify();
 		
-		return connect( $this -> lerma ) -> rowCount();
+		return $this -> lerma -> connect() -> rowCount();
 	}
 	
 	/*
@@ -121,7 +121,7 @@ final class LermaStatement extends ComponentMode implements \IteratorAggregate
 	{
 		$this -> hashVerify();
 		
-		return connect( $this -> lerma ) -> columnCount();
+		return $this -> lerma -> connect() -> columnCount();
 	}
 	
 	/*
@@ -140,9 +140,9 @@ final class LermaStatement extends ComponentMode implements \IteratorAggregate
 				$this -> bind_result[] = &${ 'result_' . $i };
 			}
 			
-			connect( $this -> lerma ) -> bindResult( $this -> bind_result );
+			$this -> lerma -> connect() -> bindResult( $this -> bind_result );
 		}
 		
-		return connect( $this -> lerma );
+		return $this -> lerma -> connect();
 	}
 }
