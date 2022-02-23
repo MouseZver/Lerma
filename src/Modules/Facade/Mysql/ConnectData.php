@@ -46,7 +46,7 @@ final class ConnectData implements ConnectDataInterface
 		return $this;
 	}
 	
-	public function setPort( string $port ): self
+	public function setPort( int $port ): self
 	{
 		$this -> setValues( compact ( [ 'port' ] ) );
 		
