@@ -324,6 +324,12 @@ Aero2
 Aero-Authentication
 ```
 
+> Предупреждение:
+```sh
+'SELECT * FROM table LIMIT ?, ?'
+```
+> Вызовет ошибку как и в других случаях синтаксиса query. Используйте принудительно подстановку значений в запрос
+
 ## Список режимов ##
 
 | name | fetch | fetchAll | code |
@@ -366,12 +372,16 @@ config() -> set( 'mode', Lerma :: FETCH_OBJ );
 config( 'drivers' );
 ```
 ```php
-[
+use Nouvu\Config\Config;
+use Nouvu\Database\Lerma;
+use Nouvu\Database\Modules;
+
+return [
 	'dsn_default' => 'mysql',
 	'drivers' => [
 		'mysql' => [
 			'module' => Modules\MySQLi :: class,
-			'dbname' => 'test',
+			'dbname' => 'dbtest',
 			'host' => '127.0.0.1',
 			'port' => 3306,
 			'charset' => 'utf8',
@@ -393,18 +403,9 @@ config( 'drivers' );
 	],
 	\Facade\Create :: class => [
 		'mysql' => \Nouvu\Database\Modules\Facade\Mysql\ConnectData :: class,
+		'sqlite' => \Nouvu\Database\Modules\Facade\Sqlite\ConnectData :: class,
 	],
 ]
-```
-
-Доступ к модулю 
-
-```php
-connect( Lerma $lerma ): ModuleInterface
-```
-```php
-// Прямой доступ непосредственно к драйверу
-$connect = connect( Lerma $lerma ) -> get();
 ```
 
 Debug строки запроса и значений
@@ -414,6 +415,12 @@ debug( bool $reset = false ): Debug
 ```
 ```php
 echo json_encode ( debug(), 480 );
+```
+
+## Прямой доступ к расширению ##
+
+```php
+$connect = $lerma -> connect() -> get();
 ```
 
 ## Fetch mode Result Examples ##
