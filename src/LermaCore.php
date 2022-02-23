@@ -6,46 +6,55 @@ namespace Nouvu\Database;
 
 use Nouvu\Database\Exception\LermaException;
 
-use function Nouvu\Database\Helpers\{ config, connect, setExtension };
+use function Nouvu\Database\Helpers\{ config };
 
 class LermaCore
 {
 	protected const BINDCHR = '\?|[:][a-zA-Z][a-zA-Z0-9_]+';
+	
+	protected string $currentExtension;
+	
+	private ModuleInterface $connect;
 
 	protected function parseDsn( string $dsn ): void
 	{
 		if ( ( $n = strpos ( $dsn, ':' ) ) !== false )
 		{
-			setExtension( $currentExtension = substr ( $dsn, 0, $n++ ) );
+			$this -> currentExtension = substr ( $dsn, 0, $n++ );
 			
-			if ( is_null ( DriverEnum :: tryFrom( $currentExtension ) ) )
+			if ( is_null ( DriverEnum :: tryFrom( $this -> currentExtension ) ) )
 			{
-				throw LermaException( "Unknown driver name \"{$currentExtension}\"" );
+				throw LermaException( "Unknown driver name \"{$this -> currentExtension}\"" );
 			}
             
 			parse_str ( $db = strtr ( substr ( $dsn, $n ), [ ';' => '&', '+' => '%2B' ] ), $get );
 
 			foreach ( $get AS $key => $value )
 			{
-				if ( ! config() -> has( "drivers.{$currentExtension}.{$key}" ) )
+				if ( ! config() -> has( "drivers.{$this -> currentExtension}.{$key}" ) )
 				{
 					throw LermaException( "Invalid name '{$key}' in dsn construction." );
 				}
 
-				config() -> set( "drivers.{$currentExtension}.{$key}", $value );
+				config() -> set( "drivers.{$this -> currentExtension}.{$key}", $value );
 			}
 		}
 		else
 		{
-			setExtension( $dsn );
+			$this -> currentExtension = $dsn;
 		}
+	}
+	
+	public function connect(): ModuleInterface
+	{
+		return $this -> connect ??= new ( config( "drivers.{$this -> currentExtension}.module" ) )( $this );
 	}
 
 	protected function binding( array $items ): void
 	{
-		connect( $this ) -> binding( $items );
+		$this -> connect() -> binding( $items );
 	
-		connect( $this ) -> isError();
+		$this -> connect() -> isError();
 	}
 	
 	protected function replaceHolders( string &$sql ): void

@@ -7,13 +7,15 @@ namespace Nouvu\Database;
 use Nouvu\Database\Exception\LermaException;
 use Nouvu\Database\Modules\Facade\ConnectDataInterface;
 
-use function Nouvu\Database\Helpers\{ debug, config, connect, queryFormatting };
+use function Nouvu\Database\Helpers\{ debug, queryFormatting, config };
 
 class Lerma extends LermaCore implements LermaInterface
 {
 	protected bool $usingTransaction = false;
 	
 	public int $hash;
+	
+	private string $current_driver;
 	
 	/*
 	config() -> set( 'drivers.mysql.module', \Nouvu\Database\Modules\MySQLi :: class );
@@ -29,7 +31,7 @@ class Lerma extends LermaCore implements LermaInterface
 	{
 		$connectDataName = config( \Facade\Create :: class . '.' . $driver -> value );
 		
-		return new $connectDataName( fn(): Lerma => new static ( $driver -> value ) );
+		return new $connectDataName( fn(): static => new static ( $driver -> value ) );
 	}
 	
 	/*
@@ -44,7 +46,7 @@ class Lerma extends LermaCore implements LermaInterface
 	
 	public function prepare( string | array $sql, array $data = null ): LermaStatement
 	{
-		connect( $this ) -> close();
+		$this -> connect() -> close();
 		
 		queryFormatting( $sql );
 		
@@ -59,9 +61,9 @@ class Lerma extends LermaCore implements LermaInterface
 			throw new LermaException( 'Request was rejected. There are no placeholders.' );
 		}
 		
-		connect( $this ) -> prepare( $sql );
+		$this -> connect() -> prepare( $sql );
 		
-		connect( $this ) -> isError();
+		$this -> connect() -> isError();
         
 		if ( is_array ( $data ) )
 		{
@@ -73,13 +75,13 @@ class Lerma extends LermaCore implements LermaInterface
     
     public function query( string | array $sql ): LermaStatement
 	{
-        connect( $this ) -> close();
+        $this -> connect() -> close();
 		
 		queryFormatting( $sql );
 		
-		connect( $this ) -> query( $sql );
+		$this -> connect() -> query( $sql );
 		
-		connect( $this ) -> isError();
+		$this -> connect() -> isError();
 		
 		return new LermaStatement( $this );
 	}
@@ -122,7 +124,7 @@ class Lerma extends LermaCore implements LermaInterface
 		{
 			$this -> usingTransaction = false;
 			
-			return connect( $this ) -> rollback( ...$rollback );
+			return $this -> connect() -> rollback( ...$rollback );
 		}
 		
 		return false;
@@ -137,7 +139,7 @@ class Lerma extends LermaCore implements LermaInterface
 		
 		$this -> usingTransaction = true;
 		
-		return connect( $this ) -> beginTransaction( ...$rollback );
+		return $this -> connect() -> beginTransaction( ...$rollback );
 	}
 
 	public function commit( mixed ...$commit ): bool
@@ -146,7 +148,7 @@ class Lerma extends LermaCore implements LermaInterface
 		{
 			$this -> usingTransaction = false;
 			
-			return connect( $this ) -> commit( ...$commit );
+			return $this -> connect() -> commit( ...$commit );
 		}
 		
 		return false;
@@ -154,6 +156,6 @@ class Lerma extends LermaCore implements LermaInterface
 
 	public function InsertID(): int
 	{
-		return connect( $this ) -> InsertID();
+		return $this -> connect() -> InsertID();
 	}
 }
