@@ -6,42 +6,42 @@ namespace Nouvu\Database;
 
 use Nouvu\Database\Exception\LermaStatementException;
 
-use function Nouvu\Database\Helpers\{ connect, getExtension };
+use function Nouvu\Database\Helpers\{ getExtension };
 
 class ComponentMode
 {
 	// Lerma :: FETCH_NUM
 	protected function fetch_num(): iterable
 	{
-		return connect( $this -> lerma ) -> fetch( Lerma :: FETCH_NUM );
+		return $this -> lerma -> connect() -> fetch( Lerma :: FETCH_NUM );
 	}
 	
 	// Lerma :: FETCH_NUM
-	protected function fetchall_num(): iterable
+	protected function fetch_num_all(): iterable
 	{
-		return connect( $this -> lerma ) -> fetchAll( Lerma :: FETCH_NUM );
+		return $this -> lerma -> connect() -> fetchAll( Lerma :: FETCH_NUM );
 	}
 	
 	// Lerma :: FETCH_ASSOC
 	protected function fetch_assoc(): iterable
 	{
-		return connect( $this -> lerma ) -> fetch( Lerma :: FETCH_ASSOC );
+		return $this -> lerma -> connect() -> fetch( Lerma :: FETCH_ASSOC );
 	}
 	
 	// Lerma :: FETCH_ASSOC
-	protected function fetchall_assoc(): iterable
+	protected function fetch_assoc_all(): iterable
 	{
-		return connect( $this -> lerma ) -> fetchAll( Lerma :: FETCH_ASSOC );
+		return $this -> lerma -> connect() -> fetchAll( Lerma :: FETCH_ASSOC );
 	}
 	
 	// Lerma :: FETCH_OBJ
 	protected function fetch_obj(): iterable
 	{
-		return connect( $this -> lerma ) -> fetch( Lerma :: FETCH_OBJ );
+		return $this -> lerma -> connect() -> fetch( Lerma :: FETCH_OBJ );
 	}
 	
 	// Lerma :: FETCH_OBJ
-	protected function fetchall_obj( int $mode, \Closure | null $argument ): iterable
+	protected function fetch_obj_all( int $mode, \Closure | null $argument ): iterable
 	{
 		while ( $row = $this -> fetch( $mode, $argument ) )
 		{
@@ -52,19 +52,19 @@ class ComponentMode
 	// Lerma :: MYSQL_FETCH_FIELD
 	protected function fetch_field(): iterable
 	{
-		return connect( $this -> lerma ) -> fetch( Lerma :: MYSQL_FETCH_FIELD );
+		return $this -> lerma -> connect() -> fetch( Lerma :: MYSQL_FETCH_FIELD );
 	}
 	
 	// Lerma :: MYSQL_FETCH_FIELD
-	protected function fetchall_field(): iterable
+	protected function fetch_field_all(): iterable
 	{
-		return connect( $this -> lerma ) -> fetchAll( Lerma :: MYSQL_FETCH_FIELD );
+		return $this -> lerma -> connect() -> fetchAll( Lerma :: MYSQL_FETCH_FIELD );
 	}
 	
 	// Lerma :: FETCH_COLUMN
 	protected function fetch_column(): mixed
 	{
-		foreach ( connect( $this -> lerma ) -> fetch( Lerma :: FETCH_NUM ) AS $row )
+		foreach ( $this -> lerma -> connect() -> fetch( Lerma :: FETCH_NUM ) AS $row )
 		{
 			yield $row[0];
 		}
@@ -73,12 +73,12 @@ class ComponentMode
 	// Lerma :: FETCH_KEY_PAIR
 	protected function fetch_key_pair(): iterable
 	{
-		if ( connect( $this -> lerma ) -> columnCount() != 2 )
+		if ( $this -> lerma -> connect() -> columnCount() != 2 )
 		{
 			throw new LermaStatementException( 'FETCH_KEY_PAIR mode is demanding on the number of columns in the request - there must be strictly two of them.' );
 		}
 		
-		foreach ( connect( $this -> lerma ) -> fetch( Lerma :: FETCH_NUM ) AS [ $first, $second ] )
+		foreach ( $this -> lerma -> connect() -> fetch( Lerma :: FETCH_NUM ) AS [ $first, $second ] )
 		{
 			yield [ $first => $second ];
 		}
@@ -86,14 +86,14 @@ class ComponentMode
 	
 	// Lerma :: FETCH_KEY_PAIR
 	// Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_FUNC
-	protected function fetchall_key_pair( int $mode, \Closure | null $argument ): iterable
+	protected function fetch_key_pair_all( int $mode, \Closure | null $argument ): iterable
 	{
-		if ( connect( $this -> lerma ) -> columnCount() != 2 )
+		if ( $this -> lerma -> connect() -> columnCount() != 2 )
 		{
 			throw new LermaStatementException( 'FETCH_KEY_PAIR mode is demanding on the number of columns in the request - there must be strictly two of them.' );
 		}
 		
-		foreach ( connect( $this -> lerma ) -> fetchAll( Lerma :: FETCH_NUM ) AS [ $first, $second ] )
+		foreach ( $this -> lerma -> connect() -> fetchAll( Lerma :: FETCH_NUM ) AS [ $first, $second ] )
 		{
 			if ( ( Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_FUNC ) == $mode )
 			{
@@ -112,9 +112,9 @@ class ComponentMode
 	}
 	
 	// Lerma :: FETCH_UNIQUE
-	protected function fetchall_unique( int $mode, string | null $column ): iterable
+	protected function fetch_unique_all( int $mode, string | null $column ): iterable
 	{
-		if ( connect( $this -> lerma ) -> columnCount() < 2 )
+		if ( $this -> lerma -> connect() -> columnCount() < 2 )
 		{
 			throw new LermaStatementException( 'FETCH_UNIQUE mode requires at least two selected columns from table.' );
 		}
@@ -126,9 +126,9 @@ class ComponentMode
 	}
 	
 	// Lerma :: FETCH_GROUP
-	protected function fetchall_group( int $mode, string | null $column ): iterable
+	protected function fetch_group_all( int $mode, string | null $column ): iterable
 	{
-		if ( connect( $this -> lerma ) -> columnCount() < 2 )
+		if ( $this -> lerma -> connect() -> columnCount() < 2 )
 		{
 			throw new LermaStatementException( 'FETCH_GROUP mode requires at least two selected columns from table.' );
 		}
@@ -144,16 +144,16 @@ class ComponentMode
 	}
 	
 	// Lerma :: FETCH_GROUP | Lerma :: FETCH_COLUMN
-	protected function fetchall_group_column(): iterable
+	protected function fetch_group_column_all(): iterable
 	{
-		if ( connect( $this -> lerma ) -> columnCount() != 2 )
+		if ( $this -> lerma -> connect() -> columnCount() != 2 )
 		{
 			throw new RequestException( 'Lerma :: FETCH_GROUP | Lerma :: FETCH_COLUMN mode is demanding on the number of columns in the request - there must be strictly two of them.' );
 		}
 		
 		$all = [];
 		
-		foreach ( connect( $this -> lerma ) -> fetchAll( Lerma :: FETCH_NUM ) AS [ $first, $second ] )
+		foreach ( $this -> lerma -> connect() -> fetchAll( Lerma :: FETCH_NUM ) AS [ $first, $second ] )
 		{
 			$all[$first][] = $second;
 		}
@@ -164,7 +164,7 @@ class ComponentMode
 	// Lerma :: MYSQL_FETCH_BIND
 	protected function fetch_bind( int $mode ): mixed
 	{
-		if ( DriverEnum :: MySQLi -> value != getExtension() )
+		if ( DriverEnum :: MySQLi -> value != getExtension( $this -> lerma ) )
 		{
 			throw new LermaStatementException( 'Selected mode for the result was not found' );
 		}
@@ -180,7 +180,7 @@ class ComponentMode
 
 		if ( $mode == ( Lerma :: MYSQL_FETCH_BIND | Lerma :: FETCH_COLUMN ) )
 		{
-			if ( connect( $this -> lerma ) -> columnCount() != 1 )
+			if ( $this -> lerma -> connect() -> columnCount() != 1 )
 			{
 				throw new LermaStatementException( 'MYSQL_FETCH_BIND & FETCH_COLUMN mode requires the number of columns in the query - there should be strictly only one.' );
 			}
@@ -194,7 +194,7 @@ class ComponentMode
 	// Lerma :: FETCH_FUNC
 	protected function fetch_func( int $mode, callable $argument ): iterable
 	{
-		foreach ( connect( $this -> lerma ) -> fetch( Lerma :: FETCH_OBJ ) AS $row )
+		foreach ( $this -> lerma -> connect() -> fetch( Lerma :: FETCH_OBJ ) AS $row )
 		{
 			yield $argument( $row );
 		}
