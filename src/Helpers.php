@@ -21,30 +21,14 @@ function config( string $offset = null ): mixed
 	return $config -> get( $offset );
 }
 
-function setExtension( string $name ): void
+function getExtension( Lerma $lerma ): string
 {
-	config() -> set( 'dsn_default', $name );
-}
-
-function getExtension(): string
-{
-	return config( 'dsn_default' );
-}
-
-function connect( Lerma $lerma ): ModuleInterface
-{
-	static $connect;
-	
-	if ( is_null ( $connect ) )
+	$closure = function (): string
 	{
-		$currentExtension = getExtension();
-		
-		$class = config( "drivers.{$currentExtension}.module" );
-		
-		$connect = new $class( $lerma );
-	}
+		return $this -> currentExtension;
+	};
 	
-	return $connect;
+	return $closure -> call( $lerma );
 }
 
 function debug( bool $reset = false ): Debug
