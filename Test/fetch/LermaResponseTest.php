@@ -109,9 +109,9 @@ class LermaResponseTest
 		
 		if ( $mode == ( Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_FUNC ) )
 		{
-			return $lrm -> fetchAll( $mode, function ( string $name ): string
+			return $lrm -> fetchAll( $mode, function ( string $first, string $second ): string
 			{
-				return "--- {{$name}} ---";
+				return "--- {{$first} | {$second}} ---";
 			} );
 		}
 		

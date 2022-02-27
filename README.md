@@ -961,71 +961,19 @@ print_r ( $stmt -> fetchAll( Lerma :: FETCH_KEY_PAIR ) );
 ```php
 Array
 (
-    [0] => Array
-        (
-            [Nouvu-Skeleton] => скелет
-        )
-
-    [1] => Array
-        (
-            [Nouvu-Framework] => ядро
-        )
-
-    [2] => Array
-        (
-            [Nouvu-Web] => веб
-        )
-
-    [3] => Array
-        (
-            [ContainerPHP] => ленивая загрузка
-        )
-
-    [4] => Array
-        (
-            [Logger] => логирование
-        )
-
-    [5] => Array
-        (
-            [Query-Storage-Bank] => хранимые процедуры
-        )
-
-    [6] => Array
-        (
-            [Neuronet] => Нейросеть
-        )
-
-    [7] => Array
-        (
-            [Lerma] => Инструмент
-        )
-
-    [8] => Array
-        (
-            [McBanner] => Счетчик
-        )
-
-    [9] => Array
-        (
-            [Piramid] => Пирамида цветная
-        )
-
-    [10] => Array
-        (
-            [Aero] => старое ядро
-        )
-
-    [11] => Array
-        (
-            [Aero2] => старое ядро2
-        )
-
-    [12] => Array
-        (
-            [Aero-Authentication] => в мусор
-        )
-
+    [Nouvu-Skeleton] => скелет
+    [Nouvu-Framework] => ядро
+    [Nouvu-Web] => веб
+    [ContainerPHP] => ленивая загрузка
+    [Logger] => логирование
+    [Query-Storage-Bank] => хранимые процедуры
+    [Neuronet] => Нейросеть
+    [Lerma] => Инструмент
+    [McBanner] => Счетчик
+    [Piramid] => Пирамида цветная
+    [Aero] => старое ядро
+    [Aero2] => старое ядро2
+    [Aero-Authentication] => в мусор
 )
 ```
 </details>
@@ -1035,79 +983,27 @@ Array
 ```php
 $stmt = $lerma -> query( [ 'SELECT `name`, `text` FROM `%s`', $this -> table ] );
 
-print_r ( $stmt -> fetchAll( Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_FUNC, function ( string $name ): string
+print_r ( $stmt -> fetchAll( Lerma :: FETCH_KEY_PAIR | Lerma :: FETCH_FUNC, function ( string $first, string $second ): string
 {
-	return "--- {{$name}} ---";
+	return "--- {{$first} | {$second}} ---";
 } ) );
 ```
 ```php
 Array
 (
-    [0] => Array
-        (
-            [Nouvu-Skeleton] => --- {скелет} ---
-        )
-
-    [1] => Array
-        (
-            [Nouvu-Framework] => --- {ядро} ---
-        )
-
-    [2] => Array
-        (
-            [Nouvu-Web] => --- {веб} ---
-        )
-
-    [3] => Array
-        (
-            [ContainerPHP] => --- {ленивая загрузка} ---
-        )
-
-    [4] => Array
-        (
-            [Logger] => --- {логирование} ---
-        )
-
-    [5] => Array
-        (
-            [Query-Storage-Bank] => --- {хранимые процедуры} ---
-        )
-
-    [6] => Array
-        (
-            [Neuronet] => --- {Нейросеть} ---
-        )
-
-    [7] => Array
-        (
-            [Lerma] => --- {Инструмент} ---
-        )
-
-    [8] => Array
-        (
-            [McBanner] => --- {Счетчик} ---
-        )
-
-    [9] => Array
-        (
-            [Piramid] => --- {Пирамида цветная} ---
-        )
-
-    [10] => Array
-        (
-            [Aero] => --- {старое ядро} ---
-        )
-
-    [11] => Array
-        (
-            [Aero2] => --- {старое ядро2} ---
-        )
-
-    [12] => Array
-        (
-            [Aero-Authentication] => --- {в мусор} ---
-        )
-
+    [Nouvu-Skeleton] => --- {Nouvu-Skeleton | скелет} ---
+    [Nouvu-Framework] => --- {Nouvu-Framework | ядро} ---
+    [Nouvu-Web] => --- {Nouvu-Web | веб} ---
+    [ContainerPHP] => --- {ContainerPHP | ленивая загрузка} ---
+    [Logger] => --- {Logger | логирование} ---
+    [Query-Storage-Bank] => --- {Query-Storage-Bank | хранимые процедуры} ---
+    [Neuronet] => --- {Neuronet | Нейросеть} ---
+    [Lerma] => --- {Lerma | Инструмент} ---
+    [McBanner] => --- {McBanner | Счетчик} ---
+    [Piramid] => --- {Piramid | Пирамида цветная} ---
+    [Aero] => --- {Aero | старое ядро} ---
+    [Aero2] => --- {Aero2 | старое ядро2} ---
+    [Aero-Authentication] => --- {Aero-Authentication | в мусор} ---
 )
 ```
 </details>

@@ -102,11 +102,11 @@ class ComponentMode
 					throw new LermaStatementException( 'FETCH_KEY_PAIR & FETCH_FUNC mode expected the second argument as a function, got null.' );
 				}
 				
-				yield [ $first => $argument( $second ) ];
+				yield $first => $argument( $first, $second );
 			}
 			else // Lerma :: FETCH_KEY_PAIR
 			{
-				yield [ $first => $second ];
+				yield $first => $second;
 			}
 		}
 	}
