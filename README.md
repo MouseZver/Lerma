@@ -82,6 +82,9 @@ $lerma = new Lerma( [ 'sqlite:db=%s', __DIR__ . '/dbtest.db' ] );
 
 ## Nouvu\Database\Lerma :: class ##
 
+<details>
+<summary>Contents spoiler</summary>
+
 #### Список методов ####
 
 Статический интерфейс подключения к Базе Данных
@@ -213,11 +216,14 @@ catch ( \Nouvu\Database\Exception\LermaException )
 	$lerma -> rollBack();
 }
 ```
+</details>
 
 ***
 
 ## Nouvu\Database\LermaStatement :: class ##
 
+<details>
+<summary>Contents spoiler</summary>
 #### Список методов ####
 
 Извлечение следующей строки из результирующего набора 
@@ -330,6 +336,8 @@ Aero-Authentication
 ```
 > Вызовет ошибку как и в других случаях синтаксиса query. Используйте принудительно подстановку значений в запрос
 
+</details>
+
 ## Список режимов ##
 
 | name | fetch | fetchAll | code |
@@ -349,6 +357,9 @@ Aero-Authentication
 | Lerma :: MYSQL_FETCH_BIND \| Lerma :: FETCH_COLUMN | + | - | 927 |
 
 ## Helper Functions ##
+
+<details>
+<summary>Contents spoiler</summary>
 
 namespace
 
@@ -416,6 +427,8 @@ debug( bool $reset = false ): Debug
 ```php
 echo json_encode ( debug(), 480 );
 ```
+
+</details>
 
 ## Прямой доступ к расширению ##
 
