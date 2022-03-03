@@ -196,7 +196,12 @@ class ComponentMode
 	{
 		foreach ( $this -> lerma -> connect() -> fetch( Lerma :: FETCH_OBJ ) AS $row )
 		{
-			yield $argument( $row );
+			$result = $argument( $row );
+			
+			if ( ! is_null ( $result ) )
+			{
+				yield $result;
+			}
 		}
 	}
 }
