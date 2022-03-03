@@ -6,7 +6,7 @@ use Nouvu\Database\{ Lerma, LermaStatement };
 
 class LermaResponseTest
 {
-	protected static int $repeat_fetch = 1;
+	protected static int $repeat_fetch = 3;
 	
 	public function __construct ( private string $table, private Lerma $lerma )
 	{}
