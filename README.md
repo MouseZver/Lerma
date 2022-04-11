@@ -224,6 +224,7 @@ catch ( \Nouvu\Database\Exception\LermaException )
 
 <details>
 <summary>Contents spoiler</summary>
+
 #### Список методов ####
 
 Извлечение следующей строки из результирующего набора 
@@ -328,6 +329,17 @@ Piramid
 Aero
 Aero2
 Aero-Authentication
+```
+
+#3 - Новая возможность - FETCH_FUNC from Generator
+
+```php
+$statement = $lerma -> query( 'SELECT `name` ...' );
+
+$statement -> fetchAll( Lerma :: FETCH_FUNC, function ( object $std ) )
+{
+	yield $std -> id => $std;
+}
 ```
 
 > Предупреждение:
@@ -950,6 +962,17 @@ Array
     [11] => 12 - Aero2 - 8 - старое ядро2 - 2022-02-06 23:44:30
     [12] => 13 - Aero-Authentication - 9 - в мусор - 2022-02-06 23:44:30
 )
+```
+
+Возможность - Generator
+
+```php
+$statement = $lerma -> query( 'SELECT `name` ...' );
+
+$statement -> fetchAll( Lerma :: FETCH_FUNC, function ( object $data ) ): iterable
+{
+	yield $data -> id => $data;
+}
 ```
 </details>
 <details>
