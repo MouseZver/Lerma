@@ -6,7 +6,7 @@
 ### Composer
 
 ```sh
-composer require nouvu/lerma:^7.2.3
+composer require nouvu/lerma:^7.2.4
 ```
 
 ## Initial use ##
