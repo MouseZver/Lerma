@@ -194,14 +194,32 @@ class ComponentMode
 	// Lerma :: FETCH_FUNC
 	protected function fetch_func( int $mode, callable $argument ): iterable
 	{
-		foreach ( $this -> lerma -> connect() -> fetch( Lerma :: FETCH_OBJ ) AS $row )
+		while ( $row = $this -> lerma -> connect() -> fetch( Lerma :: FETCH_OBJ ) -> current() )
 		{
 			$result = $argument( $row );
 			
-			if ( ! is_null ( $result ) )
+			if ( $result instanceOf \Generator )
+			{
+				yield $result -> key() => $result -> current();
+			}
+			else if ( ! is_null ( $result ) )
 			{
 				yield $result;
 			}
 		}
+		
+		/* foreach ( $this -> lerma -> connect() -> fetch( Lerma :: FETCH_OBJ ) AS $row )
+		{
+			$result = $argument( $row );
+			
+			if ( $result instanceOf \Generator )
+			{
+				yield $result -> key() => $result -> current();
+			}
+			else if ( ! is_null ( $result ) )
+			{
+				yield $result;
+			}
+		} */
 	}
 }

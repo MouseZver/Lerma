@@ -78,6 +78,8 @@ class LermaCore
 		
 		$id = 0;
 		
+		//print_r ( $execute );
+		
 		// [ ':test', '?', '?', ':id', '?' ]
 		foreach ( $this -> matches ?? [] AS $key => $placeholders )
 		{

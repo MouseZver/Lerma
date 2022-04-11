@@ -38,7 +38,7 @@ interface LermaInterface
 		],
 		Lerma :: FETCH_FUNC => [ 
 			'fetch_func', 
-			'all' => 'fetch_obj_all' 
+			'all' => 'fetch_func' 
 		],
 		Lerma :: FETCH_KEY_PAIR => [ 
 			'fetch_key_pair', 
