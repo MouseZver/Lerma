@@ -59,7 +59,7 @@ final class SQLite3 implements ModuleInterface
 	
 	public function close(): ModuleInterface
 	{
-		if ( ! is_null ( $this -> statement ) )
+		if ( ! is_null ( $this -> statement ) && ! is_bool ( $this -> statement ) )
 		{
 			$this -> statement -> close();
 		}

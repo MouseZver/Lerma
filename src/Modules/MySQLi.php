@@ -216,7 +216,7 @@ final class MySQLi implements ModuleInterface
 	{
 		$close = ( $this -> statement ?: $this -> query );
 		
-		if ( ! is_null ( $close ) )
+		if ( ! is_null ( $close ) && ! is_bool ( $close ) )
 		{
 			$close -> close();
 		}
