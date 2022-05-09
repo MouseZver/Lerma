@@ -28,7 +28,7 @@ final class MySQLi implements ModuleInterface
 		
 		$driver -> report_mode = \MYSQLI_REPORT_STRICT;
 		
-		$this -> connect();
+		//$this -> connect();
 	}
 	
 	private function connect()
@@ -61,14 +61,14 @@ final class MySQLi implements ModuleInterface
 	
 	public function query( string $sql ): void
 	{
-		$this -> connect -> ping() ?: $this -> connect();
+		$this -> connect ?-> ping() ?: $this -> connect();
 		
 		$this -> query = $this -> connect -> query( $sql );
 	}
 	
 	public function prepare( string $sql ): void
 	{
-		$this -> connect -> ping() ?: $this -> connect();
+		$this -> connect ?-> ping() ?: $this -> connect();
 		
 		$this -> statement = $this -> connect -> prepare( $sql );
 	}
