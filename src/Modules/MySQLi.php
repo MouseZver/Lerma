@@ -18,7 +18,7 @@ final class MySQLi implements ModuleInterface
 	
 	private $result;
 	
-	private \mysqli $connect;
+	private ?\mysqli $connect = null;
 	
 	public function __construct ( private Lerma $lerma )
 	{
@@ -241,6 +241,13 @@ final class MySQLi implements ModuleInterface
 	
 	public function get(): mixed
 	{
+		if ( $this -> connect instanceOf \mysqli )
+		{
+			return $this -> connect;
+		}
+		
+		$this -> connect();
+		
 		return $this -> connect;
 	}
 }
