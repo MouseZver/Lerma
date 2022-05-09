@@ -46,7 +46,7 @@ class Lerma extends LermaCore implements LermaInterface
 	
 	public function prepare( string | array $sql, array $data = null ): LermaStatement
 	{
-		$this -> connect() -> close();
+		$this -> connect() -> free_result();
 		
 		queryFormatting( $sql );
 		
@@ -75,7 +75,7 @@ class Lerma extends LermaCore implements LermaInterface
     
     public function query( string | array $sql ): LermaStatement
 	{
-        $this -> connect() -> close();
+        $this -> connect() -> free_result();
 		
 		queryFormatting( $sql );
 		

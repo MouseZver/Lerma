@@ -26,7 +26,7 @@ interface ModuleInterface
 	/*
 		- очистка
 	*/
-	public function close(): self;
+	public function free_result(): self;
 	
 	/*
 		- Стиль возвращаемого результата с одной строки

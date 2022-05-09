@@ -212,7 +212,7 @@ final class MySQLi implements ModuleInterface
 		throw new LermaDriveException( 'Binding data to variables is not possible after the result obtained from the database.' );
 	}
 	
-	public function close(): ModuleInterface
+	public function free_result(): ModuleInterface
 	{
 		$close = ( $this -> statement ?: $this -> query );
 		
